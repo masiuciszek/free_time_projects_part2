@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
-
-const deleters = s => [{ name: 'aleks', age: 22 }];
+import postReducer from './postReducer';
 
 export default combineReducers({
-  deleters,
+  posts: postReducer,
 });
