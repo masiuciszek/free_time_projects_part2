@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FaUser from 'react-icons/lib/fa/user';
+import UserHeader from './UserHeader';
 import { fetchPosts } from '../actions';
 import '../postlist.css';
 
@@ -19,6 +20,7 @@ class PostList extends Component {
             <h2>{post.title}</h2>
             <p>{post.body}</p>
           </div>
+          <UserHeader userId={post.userId} />
         </div>
       </div>
     ));
