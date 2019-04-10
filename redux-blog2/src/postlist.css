@@ -1,0 +1,18 @@
+.posts{
+  height: 100%;
+  width: 80%;
+  margin: 0 auto;
+  /* text-align: center; */
+  border: 3px solid #fe3342;
+  box-shadow: 4px 2px 10px #333;
+  margin-top: 10px;
+}
+
+.posts svg {
+padding: .4rem;
+font-size: 2rem;
+}
+
+.posts .content{
+  padding: 1.4rem;
+}
