@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FaUser from 'react-icons/lib/fa/user';
 import UserHeader from './UserHeader';
-import { fetchPosts } from '../actions';
+import { fetchPostsAndUsers } from '../actions';
 import '../postlist.css';
 
 class PostList extends Component {
   componentDidMount() {
-    this.props.fetchPosts();
+    // this.props.fetchPosts();
+    this.props.fetchPostsAndUsers();
   }
 
   renderList = () =>
@@ -35,5 +36,5 @@ const mapStateToProps = state => ({ posts: state.posts });
 
 export default connect(
   mapStateToProps,
-  { fetchPosts }
+  { fetchPostsAndUsers }
 )(PostList);
