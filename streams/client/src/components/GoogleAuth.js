@@ -25,11 +25,11 @@ export default class GoogleAuth extends Component {
     this.setState({ isSignedIn: this.auth.isSignedIn.get() });
   };
 
-  onSignIn = () => {
+  onSignInClick = () => {
     this.auth.signIn();
   };
 
-  onSignOut = () => {
+  onSignOutClick = () => {
     this.auth.signOut();
   };
 
@@ -42,7 +42,7 @@ export default class GoogleAuth extends Component {
       return (
         // eslint-disable-next-line react/button-has-type
         <button
-          onClick={this.onSignOut}
+          onClick={this.onSignOutClick}
           style={{
             background: '#fe4234',
             color: '#fefefe',
@@ -65,7 +65,7 @@ export default class GoogleAuth extends Component {
     return (
       // eslint-disable-next-line react/button-has-type
       <button
-        onClick={this.onSignIn}
+        onClick={this.onSignInClick}
         className="sign-out-btn cta"
         style={{ background: 'tomato', color: '#fefefe', borderRadius: '3rem' }}
       >

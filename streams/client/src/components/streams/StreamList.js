@@ -1,5 +1,5 @@
 import React from 'react';
 
-const StreamList = () => <div>Stream List</div>;
+const StreamList = () => <div />;
 
 export default StreamList;
