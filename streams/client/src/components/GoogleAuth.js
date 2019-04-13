@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import { connect } from 'react-redux';
-
 import { signIn, signOut } from '../actions';
 
 class GoogleAuth extends Component {
@@ -16,7 +15,6 @@ class GoogleAuth extends Component {
         })
         .then(() => {
           this.auth = window.gapi.auth2.getAuthInstance();
-          // this.setState({ isSignedIn: this.auth.isSignedIn.get() });
           this.onAuthChange(this.auth.isSignedIn.get());
           this.auth.isSignedIn.listen(this.onAuthChange); // listen an event litsiner
         });
@@ -24,15 +22,14 @@ class GoogleAuth extends Component {
   }
 
   onAuthChange = isSignedIn => {
-    const { signIn, signOut } = this.props;
+    // const { signIn, signOut } = this.props;
     if (isSignedIn) {
-      // this.props.signIn();
-      signOut();
+      this.props.signIn(this.auth.currentUser.get().getId());
+      // signOut();
     } else {
-      // this.props.signOut();
-      signIn();
+      this.props.signOut();
+      // signIn();
     }
-    // this.setState({ isSignedIn: this.auth.isSignedIn.get() });
   };
 
   onSignInClick = () => {
@@ -44,17 +41,17 @@ class GoogleAuth extends Component {
   };
 
   renderAuthButton() {
-    const { isSignedIn } = this.props;
-    if (isSignedIn === null) {
-      return null;
-    }
-    if (isSignedIn) {
+    // const { isSignedIn } = this.props;
+    // if (this.props.isSignedIn === null) {
+    //   return null;
+    // }
+    if (this.props.isSignedIn) {
       return (
         // eslint-disable-next-line react/button-has-type
         <button
           onClick={this.onSignOutClick}
           style={{
-            background: '#fe4234',
+            background: '#fe4934',
             color: '#fefefe',
             borderRadius: '3rem',
             width: '7rem',
@@ -76,7 +73,6 @@ class GoogleAuth extends Component {
       // eslint-disable-next-line react/button-has-type
       <button
         onClick={this.onSignInClick}
-        className="sign-out-btn cta"
         style={{ background: 'tomato', color: '#fefefe', borderRadius: '3rem' }}
       >
         <FaGoogle
@@ -92,7 +88,7 @@ class GoogleAuth extends Component {
             fontSize: '.7rem',
           }}
         />
-        Sign in
+        Sign In With Google
       </button>
     );
   }
