@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FaGoogle } from 'react-icons/fa';
 
 export default class GoogleAuth extends Component {
   state = { isSignedIn: null };
@@ -24,14 +25,66 @@ export default class GoogleAuth extends Component {
     this.setState({ isSignedIn: this.auth.isSignedIn.get() });
   };
 
+  onSignIn = () => {
+    this.auth.signIn();
+  };
+
+  onSignOut = () => {
+    this.auth.signOut();
+  };
+
   renderAuthButton() {
-    if (this.state.isSignedIn === null) {
-      return <div>I dont know if we are signed in</div>;
+    const { isSignedIn } = this.state;
+    if (isSignedIn === null) {
+      return null;
     }
-    if (this.state.isSignedIn) {
-      return <div>I am signed in</div>;
+    if (isSignedIn) {
+      return (
+        // eslint-disable-next-line react/button-has-type
+        <button
+          onClick={this.onSignOut}
+          style={{
+            background: '#fe4234',
+            color: '#fefefe',
+            borderRadius: '3rem',
+            width: '7rem',
+            padding: '.7rem',
+            marginTop: '10px',
+            fontWeight: '800',
+            fontSize: '.7rem',
+          }}
+        >
+          <FaGoogle
+            size={22}
+            style={{ background: 'tomato', color: '#fefefe' }}
+          />
+          Sign Out
+        </button>
+      );
     }
-    return <div>I am not signed in</div>;
+    return (
+      // eslint-disable-next-line react/button-has-type
+      <button
+        onClick={this.onSignIn}
+        className="sign-out-btn cta"
+        style={{ background: 'tomato', color: '#fefefe', borderRadius: '3rem' }}
+      >
+        <FaGoogle
+          size={22}
+          style={{
+            background: '#fe4234',
+            color: '#fefefe',
+            borderRadius: '3rem',
+            width: '7rem',
+            padding: '.7rem',
+            marginTop: '10px',
+            fontWeight: '800',
+            fontSize: '.7rem',
+          }}
+        />
+        Sign in
+      </button>
+    );
   }
 
   render() {
