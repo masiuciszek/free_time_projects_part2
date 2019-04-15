@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import { connect } from 'react-redux';
 import { signIn, signOut } from '../actions';
+import { CtaBtn } from '../styled_componets/buttons';
 
 class GoogleAuth extends Component {
   componentDidMount() {
@@ -48,48 +49,24 @@ class GoogleAuth extends Component {
     if (this.props.isSignedIn) {
       return (
         // eslint-disable-next-line react/button-has-type
-        <button
-          onClick={this.onSignOutClick}
-          style={{
-            background: '#fe4934',
-            color: '#fefefe',
-            borderRadius: '3rem',
-            width: '7rem',
-            padding: '.7rem',
-            marginTop: '10px',
-            fontWeight: '800',
-            fontSize: '.7rem',
-          }}
-        >
-          <FaGoogle
+        <CtaBtn onClick={this.onSignOutClick}>
+          {/* <FaGoogle
             size={22}
             style={{ background: 'tomato', color: '#fefefe' }}
-          />
+          /> */}
           Sign Out
-        </button>
+        </CtaBtn>
       );
     }
     return (
       // eslint-disable-next-line react/button-has-type
-      <button
-        onClick={this.onSignInClick}
-        style={{ background: 'tomato', color: '#fefefe', borderRadius: '3rem' }}
-      >
-        <FaGoogle
+      <CtaBtn onClick={this.onSignInClick}>
+        {/* <FaGoogle
           size={22}
-          style={{
-            background: '#fe4234',
-            color: '#fefefe',
-            borderRadius: '3rem',
-            width: '7rem',
-            padding: '.7rem',
-            marginTop: '10px',
-            fontWeight: '800',
-            fontSize: '.7rem',
-          }}
-        />
+          style={{ background: 'tomato', color: '#fefefe' }}
+        /> */}
         Sign In With Google
-      </button>
+      </CtaBtn>
     );
   }
 
