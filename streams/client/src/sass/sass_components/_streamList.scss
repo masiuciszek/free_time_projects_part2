@@ -1,0 +1,36 @@
+.stream-items{
+  padding: 1.2rem;
+  margin: 1rem 0;
+  box-shadow: 3px 3px 3px 7px #ccc;
+  border: 1px solid #121212;
+  height: 100%;
+   hr{
+    border: 0;
+    height: 0; /* Firefox... */
+    box-shadow: 0 0 10px 1px rgba(33, 33, 160, 0.708);
+
+      &::after{
+        content: "\00a0";  /* Prevent margin collapse */
+      }
+
+   }
+   .content-for-streams{
+     p{
+       font-size: 1.4rem;
+     }
+     .description{
+       p{
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+       }
+     }
+   }
+}
+
+.streams-title{
+
+font-size: 3rem;
+padding: .4rem;
+
+}
+
