@@ -49,11 +49,8 @@ class GoogleAuth extends Component {
     if (this.props.isSignedIn) {
       return (
         // eslint-disable-next-line react/button-has-type
-        <CtaBtn onClick={this.onSignOutClick}>
-          {/* <FaGoogle
-            size={22}
-            style={{ background: 'tomato', color: '#fefefe' }}
-          /> */}
+        <CtaBtn google onClick={this.onSignOutClick}>
+          <FaGoogle style={{ marginRight: '12px' }} size={22} />
           Sign Out
         </CtaBtn>
       );

@@ -22,6 +22,7 @@ class StreamCreate extends Component {
     return (
       <div className="form-wrapper">
         <label
+          htmlFor="s"
           className={className}
           style={{
             display: 'block',

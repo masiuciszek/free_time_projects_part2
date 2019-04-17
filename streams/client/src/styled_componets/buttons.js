@@ -15,13 +15,11 @@ export const SubmitBtn = styled.button`
 `;
 
 export const CtaBtn = styled.button`
-  background: '#fe4934';
-
-  /* color: '#fefefe';
-  borderradius: '3rem';
-  width: '7rem';
-  padding: '.7rem';
-  margintop: '10px';
-  fontweight: '800';
-  fontsize: '.7rem'; */
+  background: ${props => (props.google ? '#fe4934' : '#fe2899')};
+  padding: 0.6rem 8rem;
+  color: #fefefe;
+  border-radius: ${props => (props.google ? '1rem' : '2rem')};
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 20px;
 `;
