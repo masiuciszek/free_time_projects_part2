@@ -25,6 +25,11 @@
        }
      }
    }
+   .button-area-for-user{
+     display: flex;
+     justify-content: flex-end;
+     width: 100%;
+   }
 }
 
 .streams-title{
