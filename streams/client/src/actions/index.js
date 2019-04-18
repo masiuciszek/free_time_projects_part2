@@ -8,6 +8,7 @@ import {
   FETCH_STREAMS,
 } from './types';
 import streams from '../apis/streams';
+import history from '../history';
 
 export const signIn = userId => ({
   type: SIGN_IN,
@@ -22,6 +23,7 @@ export const createStream = formValues => async (dispatch, getState) => {
   const resp = await streams.post('/streams', { ...formValues, userId }); // all the values from our form and who that user was that created that stream
 
   dispatch({ type: CREATE_STREAM, payload: resp.data });
+  history.push('/');
 };
 
 export const fetchStreams = () => async dispatch => {

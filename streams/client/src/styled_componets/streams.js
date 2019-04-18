@@ -36,6 +36,7 @@ export const ButtonLink = styled.button`
   color: #fff;
   padding: 0.6rem 1rem;
   margin: 8px 6px 3px;
+
   &:hover {
     transition: 0.7s;
     background: ${props =>

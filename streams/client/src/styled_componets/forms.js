@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const MyForm = styled.form`
-  width: 50%;
+  width: 60vw;
   border: 1px solid #ccc;
   height: 100%;
   box-shadow: 4px 4px 12px #ccc;

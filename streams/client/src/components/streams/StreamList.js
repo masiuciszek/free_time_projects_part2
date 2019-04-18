@@ -21,7 +21,9 @@ class StreamList extends React.Component {
     if (stream.userId === currentUserId) {
       return (
         <div className="button-area-for-user">
-          <Button edit>Edit</Button>
+          <Link to={`/streams/edit/${stream.id}`}>
+            <Button edit>Edit</Button>{' '}
+          </Link>
           <Button delete>Delete</Button>
         </div>
       );
@@ -52,7 +54,7 @@ class StreamList extends React.Component {
     if (isSignedIn) {
       return (
         <div style={{ textAlign: 'right' }}>
-          <Link to="/stream/new">
+          <Link to="/streams/new">
             <ButtonLink link>Create Stream</ButtonLink>
           </Link>
         </div>
@@ -62,13 +64,16 @@ class StreamList extends React.Component {
 
   render() {
     return (
-      <StreamWrap>
-        <StreamItems className="ui celled list">
-          <h2 className="streams-title">streams</h2>
-          {this.renderList()}
-        </StreamItems>
-        {this.renderCreate()}
-      </StreamWrap>
+      <>
+        <StreamWrap>
+          <StreamItems className="ui celled list">
+            <h2 className="streams-title">streams</h2>
+            {this.renderList()}
+          </StreamItems>
+          {this.renderCreate()}
+        </StreamWrap>
+        {/* <ButtonLink link>Create Stream</ButtonLink> */}
+      </>
     );
   }
 }

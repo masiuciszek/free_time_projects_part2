@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import StreamList from './streams/StreamList';
 import StreamDelete from './streams/StreamDelete';
@@ -8,6 +8,8 @@ import StreamCreate from './streams/StreamCreate';
 import StreamShow from './streams/StreamShow';
 import NotFound from './NotFound';
 import Header from './Header';
+import createBrowserHistory from '../history';
+// import history from '../history';
 
 const ClearFix = styled.div`
   display: flex;
@@ -20,21 +22,21 @@ export default class App extends Component {
   render() {
     return (
       <div className="container">
-        <BrowserRouter>
+        <Router history={createBrowserHistory}>
           <div>
             <Header />
             <Switch>
               <ClearFix>
                 <Route path="/" exact component={StreamList} />
-                <Route path="/stream/new" component={StreamCreate} />
-                <Route path="/stream/edit" component={StreamEdit} />
-                <Route path="/stream/delete" component={StreamDelete} />
-                <Route path="/stream/show" component={StreamShow} />
+                <Route path="/streams/new" component={StreamCreate} />
+                <Route path="/streams/edit:/id" component={StreamEdit} />
+                <Route path="/streams/delete" component={StreamDelete} />
+                <Route path="/streams/show" component={StreamShow} />
               </ClearFix>
               <Route component={NotFound} />
             </Switch>
           </div>
-        </BrowserRouter>
+        </Router>
       </div>
     );
   }
