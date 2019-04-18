@@ -57,13 +57,7 @@ class GoogleAuth extends Component {
     }
     return (
       // eslint-disable-next-line react/button-has-type
-      <CtaBtn onClick={this.onSignInClick}>
-        {/* <FaGoogle
-          size={22}
-          style={{ background: 'tomato', color: '#fefefe' }}
-        /> */}
-        Sign In With Google
-      </CtaBtn>
+      <CtaBtn onClick={this.onSignInClick}>Sign In With Google</CtaBtn>
     );
   }
 

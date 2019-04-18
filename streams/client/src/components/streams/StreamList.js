@@ -18,10 +18,12 @@ class StreamList extends React.Component {
 
   renderAdmin(stream) {
     const { currentUserId } = this.props;
+    console.log(stream.id);
     if (stream.userId === currentUserId) {
       return (
         <div className="button-area-for-user">
           <Link to={`/streams/edit/${stream.id}`}>
+            {/* /streams/edit:/id */}
             <Button edit>Edit</Button>{' '}
           </Link>
           <Button delete>Delete</Button>
@@ -32,6 +34,7 @@ class StreamList extends React.Component {
 
   renderList() {
     const { streams } = this.props;
+    // console.log(streams.map(x => x.id));
     return streams.map(stream => (
       <div className="stream-items" key={stream.id}>
         <hr />
@@ -80,7 +83,7 @@ class StreamList extends React.Component {
 
 const mapStateToProps = state => ({
   streams: Object.values(state.streams),
-  userId: state.auth.userId,
+  currentUserId: state.auth.userId,
   isSignedIn: state.auth.isSignedIn,
 });
 
