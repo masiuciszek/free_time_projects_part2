@@ -6,9 +6,9 @@ const _ = require('lodash');
 
 // dummy data
 const users = [
-  { id: '1', firstName: 'Bill', age: 32 },
-  { id: '2', firstName: 'Tina', age: 22 },
-  { id: '3', firstName: 'Linda', age: 32 },
+  { id: '23', firstName: 'Bill', age: 23 },
+  { id: '21', firstName: 'Maia', age: 21 },
+  { id: '45', firstName: 'Arek', age: 36 },
 ];
 
 const UserType = new GraphQLObjectType({
