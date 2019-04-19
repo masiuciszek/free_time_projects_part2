@@ -43,3 +43,19 @@ export const ButtonLink = styled.button`
       props.link ? 'rgba(113, 133, 560, 0.708)' : 'rgba(313, 113, 120, 0.708)'};
   }
 `;
+
+export const EditStreamWrap = styled.div`
+  display: block;
+  height: 100%;
+  border-radius: 2rem;
+  padding: 2rem;
+  margin-top: 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 4px 3px 3px 2px #ccc;
+  h3 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 2px #9999, 0 0 1em #7776, 0 0 0.2em #ccc;
+  }
+`;

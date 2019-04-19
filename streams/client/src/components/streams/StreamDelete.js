@@ -1,5 +1,10 @@
-import React from 'react';
+react
 
-const StreamDelete = () => <div>Stream delete</div>;
+
+const StreamDelete = () => {
+
+
+}
+
 
 export default StreamDelete;
