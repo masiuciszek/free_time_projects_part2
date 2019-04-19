@@ -1,7 +1,14 @@
 {
   "users": [
-    {"id": "23", "firstName": "Bill", "age":23},
-    {"id": "21", "firstName": "Maia", "age":21},
-    {"id": "45", "firstName": "Arek", "age":36}
+    {"id": "23", "firstName": "Bill", "age":23, "companyId":"1"},
+    {"id": "21", "firstName": "Maia", "age":21, "companyId":"2"},
+    {"id": "45", "firstName": "Arek", "age":36, "companyId":"1"},
+    {"id": "15", "firstName": "Bartek", "age":56, "companyId":"3"},
+    {"id": "5", "firstName": "Asia", "age":29, "companyId":"2"}
+  ],
+  "companies": [
+    {"id": "1", "name": "Apple", "description":"Macintosh" },
+    {"id": "2", "name": "Google", "description":"Search" },
+    {"id": "3", "name": "Volvo", "description":"Cars" }
   ]
 }
