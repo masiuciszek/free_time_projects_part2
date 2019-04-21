@@ -22,6 +22,7 @@ class SongCreate extends Component {
     e.preventDefault();
     const { mutate } = this.props;
 
+    // create a song
     mutate({
       variables: { title: this.state.title },
       refetchQueries: [{ query }],
