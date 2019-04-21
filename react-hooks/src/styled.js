@@ -5,14 +5,16 @@ export const Form = styled.form`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #34473f;
-  /* change with of the form if it is opened or not */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #373737;
+  /* Change the props on the form depending if it is opened or not */
   width: ${props => (props.barOpened ? '30rem' : '2rem')};
+  /* if bar opened, normal cursor on the whole form if closed , then show pointer on the whole form so user knows */
   cursor: ${props => (props.barOpened ? 'auto' : 'pointer')};
   padding: 2rem;
   height: 2rem;
   border-radius: 10rem;
-  transition: all 333ms cubic-bezier(0.645, 0.045, 0.035, 1);
+  transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
 `;
 
 export const Input = styled.input`
@@ -23,21 +25,23 @@ export const Input = styled.input`
   margin-left: ${props => (props.barOpened ? '1rem' : '0rem')};
   border: none;
   color: #fff;
-  transition: all 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 300ms cubic-bezier(0.655, 0.03, 0.515, 0.955);
+
   &:focus,
   &:active {
     outline: none;
   }
-  &::placehodler {
+  &::placeholder {
     color: #fff;
   }
 `;
 
 export const Button = styled.button`
+  line-height: 1;
   pointer-events: ${props => (props.barOpened ? 'auto' : 'none')};
   cursor: ${props => (props.barOpened ? 'pointer' : 'none')};
   background-color: transparent;
   border: none;
-  outline: none;
+  ouline: none;
   color: #fff;
 `;

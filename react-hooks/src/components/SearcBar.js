@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { FaAngellist } from 'react-icons/fa';
 import { Form, Input, Button } from '../styled';
 
-function SearchBar() {
+export default function SearcBar() {
   const [input, setInput] = useState('');
   const [barOpened, setBarOpened] = useState(false);
   const formRef = useRef();
@@ -14,24 +15,29 @@ function SearchBar() {
     };
   }, []);
 
+  // this is for to close the form when the input is opened, set bar opened to flase (toggle)
   const handleClick = e => {
     if (formRef.current.contains(e.target)) {
       return;
     }
-    console.log(' Click outside the for to close it');
+    console.log('Click Outside the form');
+    setBarOpened(false);
   };
 
+  // When form submitted, clear input , close the search bar and do something
   const onFormSubmit = e => {
     e.preventDefault();
     setInput('');
     setBarOpened(false);
-    console.log(`form was opened with ${input}`);
+    console.log(`Form was submitted with input : ${input} `);
   };
+
   return (
-    <div className="app">
+    <div className="cool-input">
       <Form
         barOpened={barOpened}
         onClick={() => {
+          // when clicked the set to open and focus effect on the input
           setBarOpened(true);
           inputFocus.current.focus();
         }}
@@ -39,18 +45,16 @@ function SearchBar() {
         ref={formRef}
       >
         <Button type="submit" barOpened={barOpened}>
-          Yooo
+          <FaAngellist size={33} />
         </Button>
         <Input
           onChange={e => setInput(e.target.value)}
           ref={inputFocus}
           value={input}
           barOpened={barOpened}
-          placeholder="Search for something..."
+          placeholder="search for something"
         />
       </Form>
     </div>
   );
 }
-
-export default SearchBar;
