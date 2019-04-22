@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import Counter from './components/Counter';
 import Welcome from './components/Welcome';
 import Nav from './components/Nav';
+import NotFound from './components/NotFound';
 import SearchBar from './components/SearcBar';
 
 export default class App extends Component {
@@ -18,7 +19,7 @@ export default class App extends Component {
               <Route path="/" exact component={Welcome} />
               <Route path="/counter" component={Counter} />
               <Route path="/searchbar" component={SearchBar} />
-              <Route component={Counter} />
+              <Route component={NotFound} />
             </Switch>
           </div>
         </BrowserRouter>
