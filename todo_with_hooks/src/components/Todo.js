@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
 
-export default function Todo({ todo, index, completeTodo, removeTodo }) {
+export default function Todo({
+  todo,
+  index,
+  completeTodo,
+  removeTodo,
+  handleToggle,
+}) {
   return (
-    <div
-      className="todo"
-      style={{ textDecoration: todo.isCompleted ? 'line-through' : '' }}
-    >
+    <div className="todo">
       {todo.text}
       <div className="btn-div">
-        <button className="adding-todo" onClick={() => completeTodo(index)}>
+        <button
+          style={{ textDecoration: todo.isCompleted ? 'line-through' : '' }}
+          type="button"
+          className="adding-todo"
+          onClick={() => completeTodo(index)}
+          handleToggle={() => handleToggle(index)}
+        >
           {todo.isCompleted ? 'complted!!!' : 'done'}
         </button>
-        <button className="remove" onClick={() => removeTodo(index)}>
+        <button
+          type="button"
+          className="remove"
+          onClick={() => removeTodo(index)}
+        >
           x
         </button>
       </div>

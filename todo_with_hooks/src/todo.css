@@ -6,20 +6,24 @@ body{
   background: steelblue
 }
 .app {
-  border: 1px solid #fff;
   padding: 3rem;
-  margin-top: 3rem;
+  margin-top: 5rem;
 
 }
 
 .todo-list{
   box-shadow: 3px 3px 3px 3px #223;
-  padding: 3rem;
+  padding: 1.4rem;
+  background: rgba(7,7,7,0.4);
 }
 
 .todo{
   font-size: 2rem;
+  box-shadow: 3px 3px 3px 3px #223;
+  padding: .6rem;
+  background: rgba(106, 105, 105, 0.212);
   color: #fff;
+  margin: 12px 0;
 }
 .btn-div{
   height: 100%;

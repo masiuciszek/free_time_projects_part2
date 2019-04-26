@@ -9,6 +9,11 @@ export default function App() {
     { text: 'code code code!', isCompleted: false },
     { text: 'get out with the dog', isCompleted: false },
   ]);
+
+  const handleToggle = index => {
+    const newTodos = [...todos];
+    newTodos[index].isCompleted = false;
+  };
   const addTodo = text => {
     const newTodos = [...todos, { text }];
     setTodos(newTodos);
@@ -34,10 +39,11 @@ export default function App() {
             todo={todo}
             completeTodo={completeTodo}
             removeTodo={removeTodo}
+            handleToggle={handleToggle}
           />
         ))}
+        <TodoForm addTodo={addTodo} />
       </div>
-      <TodoForm addTodo={addTodo} />
     </div>
   );
 }
