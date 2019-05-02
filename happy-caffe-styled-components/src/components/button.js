@@ -6,10 +6,11 @@ const transition = time => `all ${time} linear`;
 export const Button = styled.button`
   background: steelblue;
   font-size: ${props => (props.big ? '2rem' : '1rem')}
-  background: ${color};
+  /* background: ${color}; */
+  background: ${props => props.background};
   padding: 0.8rem 1rem;
   border-radius: ${props => props.radius};
-  color: #012;
+  color: ${props => props.colour};
   transition: ${transition('2s')};
   &:hover {
     background: black;
