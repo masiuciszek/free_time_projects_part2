@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css?family=Dokdo|IM+Fell+DW+Pica:400i");
+:root {
+  --primaryColor: blue;
+}
+/* font-family: 'IM Fell DW Pica', serif; */
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.second {
+  color: blue;
+}
+.property {
+  color: var(--primaryColor);
+}

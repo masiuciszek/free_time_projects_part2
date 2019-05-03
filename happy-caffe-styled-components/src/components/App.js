@@ -1,35 +1,39 @@
-import React from 'react';
-import { createGlobalStyle } from 'styled-components';
-import { Button } from './button';
-import { Header, Hero } from './Header';
-import image1 from '../img/img1.jpg';
-import image2 from '../img/img2.jpg';
-import Banner from './Banner';
+import React, { Component } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { DangerButton, SuccessButton } from './Buttons';
+import Form from './Form';
+import { RedTheme, GreenTheme } from './Themes';
 
-const GlobalStyle = createGlobalStyle`
-*{
-  margin: 0;
-  padding: 0;
-}
-body{
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-`;
+class App extends Component {
+  state = {
+    theme: RedTheme,
+  };
 
-export default function App() {
-  return (
-    <div>
-      <GlobalStyle />
-      <Header white img={image1} title="Happy Caffe">
-        <Banner title="Happy caffee">
-          <Button background="#de4523" colour="#fff" radius="24px" />
-        </Banner>
-      </Header>
-      <Hero img={image2} />
-    </div>
-  );
+  myRef = React.createRef();
+
+  setRedTheme = () => {
+    this.setState({
+      theme: RedTheme,
+    });
+  };
+
+  setGreenTheme = () => {
+    this.setState({
+      theme: GreenTheme,
+    });
+  };
+
+  render() {
+    return (
+      <ThemeProvider theme={this.state.theme}>
+        <div>
+          <SuccessButton onClick={this.setGreenTheme}>Success</SuccessButton>
+          <DangerButton onClick={this.setRedTheme}>Danger</DangerButton>
+          <Form myRef={this.myRef} />
+        </div>
+      </ThemeProvider>
+    );
+  }
 }
 
-// "eslintConfig": {
-//   "extends": "react-app"
-// },
+export default App;
