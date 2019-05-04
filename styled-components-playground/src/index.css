@@ -12,3 +12,11 @@ body {
 .property {
   color: var(--primaryColor);
 }
+
+
+.container {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  justify-content: center;
+}

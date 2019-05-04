@@ -1,39 +1,20 @@
-import React, { Component } from 'react';
-import { ThemeProvider } from 'styled-components';
-import { DangerButton, SuccessButton } from './Buttons';
-import Form from './Form';
-import { RedTheme, GreenTheme } from './Themes';
+import React from 'react';
+import { PinkBox, BlueBox } from './Boxes';
+import { AnimatedBox } from './AnimatedBox';
+import { MainBanner, SecondBanner } from './Media';
 
-class App extends Component {
-  state = {
-    theme: RedTheme,
-  };
-
-  myRef = React.createRef();
-
-  setRedTheme = () => {
-    this.setState({
-      theme: RedTheme,
-    });
-  };
-
-  setGreenTheme = () => {
-    this.setState({
-      theme: GreenTheme,
-    });
-  };
-
-  render() {
-    return (
-      <ThemeProvider theme={this.state.theme}>
-        <div>
-          <SuccessButton onClick={this.setGreenTheme}>Success</SuccessButton>
-          <DangerButton onClick={this.setRedTheme}>Danger</DangerButton>
-          <Form myRef={this.myRef} />
-        </div>
-      </ThemeProvider>
-    );
-  }
+export default function App() {
+  return (
+    <div className="container">
+      <MainBanner background="red" radius="24px">
+        Main
+      </MainBanner>
+      <SecondBanner background="pink" color="yellow">
+        Second
+      </SecondBanner>
+      {/* <PinkBox borderColour="pink" />
+      <BlueBox borderColour="steelblue" background="rgba(30,110,310,.7)" />
+      <AnimatedBox /> */}
+    </div>
+  );
 }
-
-export default App;
