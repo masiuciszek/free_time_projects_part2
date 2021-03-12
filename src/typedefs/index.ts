@@ -9,6 +9,7 @@ const typeDefs = gql`
   }
 
   input CreateDishInput {
+    id: ID!
     title: String!
     dishType: DishTypeEnum!
   }
