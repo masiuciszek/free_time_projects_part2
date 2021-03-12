@@ -1,6 +1,8 @@
-import { gql } from "apollo-server-core";
+import { gql } from "apollo-server";
 
 const typeDefs = gql`
+  scalar Date
+
   enum DishTypeEnum {
     STARTER
     SIDE
@@ -15,13 +17,20 @@ const typeDefs = gql`
   }
 
   type Dish {
-    name: String!
+    id: Int!
+    title: String!
     dishType: DishTypeEnum!
+    rating: Int!
+    image: String
+    # ownerId: Int!
+    # author: User
+    # comments: [Comment]
+    createdAt: Date
   }
 
   type Query {
     foo: String
-    allDishes: [Dish!]
+    allDishes: [Dish]
   }
 
   type Mutation {

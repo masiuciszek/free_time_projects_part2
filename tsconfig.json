@@ -8,5 +8,5 @@
     "esModuleInterop": true,
     "types": ["@types/graphql-upload"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "prisma/seed.ts"]
 }

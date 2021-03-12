@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "ts-node ./src/main.ts",
-    "seed": "ts-node prisma/seed.ts",
+    "seed": "ts-node ./src/seed.ts",
     "dev": "nodemon --exec ts-node src/main.ts",
     "run-script": "ts-node script.ts"
   },
