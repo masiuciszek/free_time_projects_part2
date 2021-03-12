@@ -29,8 +29,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    foo: String
     allDishes: [Dish]
+    getDishById(id: Int!): Dish
   }
 
   type Mutation {

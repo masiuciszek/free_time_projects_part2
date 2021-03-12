@@ -1,5 +1,5 @@
 import { ApolloServer } from "apollo-server";
-import { context } from "./context";
+import { context } from "./types";
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./typedefs";
 
@@ -9,7 +9,7 @@ import { typeDefs } from "./typedefs";
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req, res }) => ({ req, res, context }),
+    context: ({ req, res }) => context(req, res),
   });
 
   server.listen(port, () =>
