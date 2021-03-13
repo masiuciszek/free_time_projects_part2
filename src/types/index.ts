@@ -8,7 +8,7 @@ export type Remapped<T> = {
     parent: null | undefined,
     args: FirstArgument<[P]>,
     ctx: Context,
-    info?: GraphQLResolveInfo
+    info?: GraphQLResolveInfo,
   ) => any;
 };
 
@@ -29,9 +29,16 @@ export type BasicArg<T> = {
   [key: string]: T;
 };
 
-// export const context: Context = {
-//   prisma: new PrismaClient(),
-// };
+export interface RegisterUserInput {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+export interface Input<T> {
+  [key: string]: T;
+}
 
 const contextHandler = (prisma: PrismaClient) => (req: Request, res: Response): Context => {
   return { req, res, prisma };
