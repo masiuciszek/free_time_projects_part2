@@ -1,18 +1,18 @@
 import { BasicArg, Context, Input, RegisterUserInput } from "../types";
-import { to } from "../utils/helpers";
+import { hashPassord, to, tokenHandler } from "../utils/helpers";
 
 const allUsers = async (parent: undefined, args: undefined, ctx: Context) => {
   const [err, users] = await to(ctx.prisma.user.findMany());
-  if (Boolean(err)) {
+  if (err) {
     console.error(err);
-    throw new Error(`ooopas something wrong happend`);
+    throw new Error(`oops something wrong happend`);
   }
   return users;
 };
 
 const getUserById = async (_: undefined, { id }: BasicArg<string>, ctx: Context) => {
   const [err, user] = await to(ctx.prisma.user.findFirst({ where: { id: Number(id) } }));
-  if (Boolean(err) || !user?.id) {
+  if (err || !user?.id) {
     console.error(err);
     throw new Error(`could not find user with id ${id}`);
   }
@@ -24,20 +24,26 @@ const registerUser = async (
   { userInput: { firstName, lastName, email, password } }: Input<RegisterUserInput>,
   ctx: Context,
 ) => {
+  const hashedPassword = await hashPassord(password);
+
   const [err, user] = await to(
     ctx.prisma.user.create({
       data: {
         firstName,
         lastName,
         email,
-        password,
+        password: hashedPassword,
       },
     }),
   );
-  if (Boolean(err)) {
+  if (err) {
     console.error(err);
-    throw new Error(`ooopas something wrong happend`);
+    throw new Error(`oops something wrong happend`);
   }
+  if (user && ctx.res) {
+    tokenHandler(user, ctx.res);
+  }
+
   return user;
 };
 
