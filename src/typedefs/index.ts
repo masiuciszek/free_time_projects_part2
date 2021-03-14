@@ -23,6 +23,16 @@ const typeDefs = gql`
     password: String!
   }
 
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
+  type AuthPayload {
+    token: String
+    user: User
+  }
+
   type Dish {
     id: Int!
     title: String!
@@ -59,7 +69,8 @@ const typeDefs = gql`
     # dishes
     addDish(dish: CreateDishInput!): Dish!
     # users
-    registerUser(userInput: CreateUserInput!): User!
+    registerUser(userInput: CreateUserInput!): AuthPayload
+    login(loginInput: LoginInput!): User
   }
 `;
 export { typeDefs };

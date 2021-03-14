@@ -1,6 +1,6 @@
 import { User } from ".prisma/client";
 import bcrypt from "bcryptjs";
-import { Response } from "express";
+import { Response, Request } from "express";
 import jwt from "jsonwebtoken";
 
 export const isOk = <T>(p: Promise<T>) => {
@@ -27,7 +27,7 @@ export const hashPassord = async (password: string): Promise<string> => {
 };
 
 export const generateJwtToken = (user: User, expires = "24h") => {
-  const token = jwt.sign({ id: user?.id }, "secret", { expiresIn: "24h" });
+  const token = jwt.sign({ user_id: user?.id }, "secret", { expiresIn: expires });
   return token;
 };
 
@@ -44,4 +44,35 @@ export const tokenHandler = (user: User, res: Response) => {
     (options.httpOnly = true), (options.secure = true);
   }
   res?.cookie("token", token, options);
+  return { token };
 };
+
+export const comparePassword = async (
+  password: string,
+  passWordToMatch: string,
+): Promise<boolean> => await bcrypt.compare(password, passWordToMatch);
+
+export const verifyToken = (token: string) => {
+  return jwt.verify(token, "secret");
+};
+
+// Pass the token forward and handle it in each resolver
+// I don't want to throw an error if we cant verify token
+// Not all routes will need a authentication token!
+export const sendTokenToResolver = (req: Request) => {
+  const authHeader = req.headers && req.headers.authorization;
+  const token = authHeader && authHeader.replace("Bearer", "");
+  return token;
+  // if (token) {
+  //   const { user_id } = verifyToken(token) as { user_id: string };
+  // }
+  // return user_id;
+  // throw new Error("not authorized");
+
+  // } else if (authToken) {
+  //   const { user_id } = verifyToken(authToken) as { user_id: string };
+  //   return user_id;
+  // }
+};
+
+export const toStr = (x: boolean | number | string): string => x.toString().trim()!;

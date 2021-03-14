@@ -16,6 +16,7 @@ export interface Context {
   prisma: PrismaClient;
   req?: Request;
   res?: Response;
+  authId: string | boolean;
 }
 
 export interface Resolver {
@@ -35,12 +36,21 @@ export interface RegisterUserInput {
   email: string;
   password: string;
 }
+export type LoginInput = Pick<RegisterUserInput, "email" | "password">;
 
 export interface Input<T> {
   [key: string]: T;
 }
 
-const contextHandler = (prisma: PrismaClient) => (req: Request, res: Response): Context => {
+export interface TokenPayload {
+  user_id: number;
+  iat: number;
+  exp: number;
+}
+
+type ContextHandler = Pick<Context, "prisma" | "req" | "res">;
+
+const contextHandler = (prisma: PrismaClient) => (req: Request, res: Response): ContextHandler => {
   return { req, res, prisma };
 };
 

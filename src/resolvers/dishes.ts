@@ -1,11 +1,12 @@
 import { BasicArg, Context } from "../types";
+import { to } from "../utils/helpers";
 
 const allDishes = async (parent: undefined, args: undefined, ctx: Context) => {
-  try {
-    return (await ctx.prisma.dish.findMany()) ?? [];
-  } catch (err) {
-    console.error(err);
+  const [err, dishes] = await to(ctx.prisma.dish.findMany());
+  if (!dishes) {
+    throw new Error("no dishes");
   }
+  return dishes;
 };
 
 const getDishById = async (parent: undefined, { id }: BasicArg<string>, ctx: Context) => {
