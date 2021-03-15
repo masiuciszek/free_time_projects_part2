@@ -1,7 +1,8 @@
 import { BasicArg, Context, Input, LoginInput, RegisterUserInput, TokenPayload } from "../types";
 import {
   comparePassword,
-  hashPassord,
+  getAuthId,
+  hashPassord as hashPassword,
   to,
   tokenHandler,
   toStr,
@@ -37,9 +38,9 @@ const getUserById = async (_: undefined, { id }: BasicArg<string>, ctx: Context)
 const registerUser = async (
   _: undefined,
   { userInput }: Input<RegisterUserInput>,
-  ctx: Context,
+  ctx: Context
 ) => {
-  const hashedPassword = await hashPassord(userInput.password);
+  const hashedPassword = await hashPassword(userInput.password);
 
   const [err, user] = await to(
     ctx.prisma.user.create({
@@ -47,7 +48,7 @@ const registerUser = async (
         ...userInput,
         password: hashedPassword,
       },
-    }),
+    })
   );
   if (!user) {
     throw new Error(`oops something wrong happend`);
@@ -76,7 +77,13 @@ const login = async (_: any, { loginInput }: Input<LoginInput>, ctx: Context) =>
     const { token } = tokenHandler(user, ctx.res);
     authToken = token;
   }
-  return { user, authToken };
+  return { user, token: authToken };
 };
 
-export { allUsers, getUserById, registerUser, login };
+const deleteMe = async (_: any, __: any, ctx: Context) => {
+  const { user_id } = await getAuthId(Number(ctx.authId));
+  const user = await ctx.prisma.user.findUnique({ where: { id: user_id } });
+  return user;
+};
+
+export { allUsers, getUserById, registerUser, login, deleteMe };

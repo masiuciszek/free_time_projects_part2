@@ -67,5 +67,6 @@ type Mutation {
   addDish(dish: CreateDishInput!): Dish!
   # users
   registerUser(userInput: CreateUserInput!): AuthPayload
-  login(loginInput: LoginInput!): User
+  login(loginInput: LoginInput!): AuthPayload
+  deleteMe: User!
 }

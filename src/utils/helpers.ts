@@ -2,6 +2,7 @@ import { User } from ".prisma/client";
 import bcrypt from "bcryptjs";
 import { Response, Request } from "express";
 import jwt from "jsonwebtoken";
+import { TokenPayload } from "../types";
 
 export const isOk = <T>(p: Promise<T>) => {
   return p.then(data => ({ ok: true, data })).catch(err => Promise.resolve({ ok: false, err }));
@@ -9,7 +10,7 @@ export const isOk = <T>(p: Promise<T>) => {
 
 export function to<T, U = Error>(
   promise: Promise<T>,
-  errorObject?: object,
+  errorObject?: object
 ): Promise<[U, undefined] | [null, T]> {
   return promise
     .then<[null, T]>((data: T) => [null, data])
@@ -49,7 +50,7 @@ export const tokenHandler = (user: User, res: Response) => {
 
 export const comparePassword = async (
   password: string,
-  passWordToMatch: string,
+  passWordToMatch: string
 ): Promise<boolean> => await bcrypt.compare(password, passWordToMatch);
 
 export const verifyToken = (token: string) => {
@@ -63,16 +64,19 @@ export const sendTokenToResolver = (req: Request) => {
   const authHeader = req.headers && req.headers.authorization;
   const token = authHeader && authHeader.replace("Bearer", "");
   return token;
-  // if (token) {
-  //   const { user_id } = verifyToken(token) as { user_id: string };
-  // }
-  // return user_id;
-  // throw new Error("not authorized");
-
-  // } else if (authToken) {
-  //   const { user_id } = verifyToken(authToken) as { user_id: string };
-  //   return user_id;
-  // }
 };
 
 export const toStr = (x: boolean | number | string): string => x.toString().trim()!;
+
+export const getAuthId = async (authId: number) => {
+  const [__, jwtToken] = await to(Promise.resolve(authId));
+  if (!jwtToken) {
+    throw new Error("Auth error");
+  }
+  const { user_id } = verifyToken(toStr(jwtToken)) as TokenPayload;
+  if (!user_id) {
+    throw new Error("no user found");
+  }
+
+  return { user_id };
+};
