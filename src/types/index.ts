@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { GraphQLResolveInfo } from "graphql";
 
@@ -8,7 +8,7 @@ export type Remapped<T> = {
     parent: null | undefined,
     args: FirstArgument<[P]>,
     ctx: Context,
-    info?: GraphQLResolveInfo,
+    info?: GraphQLResolveInfo
   ) => any;
 };
 
@@ -16,7 +16,7 @@ export interface Context {
   prisma: PrismaClient;
   req?: Request;
   res?: Response;
-  authId: string | boolean;
+  user?: User;
 }
 
 export interface Resolver {
@@ -50,8 +50,14 @@ export interface TokenPayload {
 
 type ContextHandler = Pick<Context, "prisma" | "req" | "res">;
 
-const contextHandler = (prisma: PrismaClient) => (req: Request, res: Response): ContextHandler => {
+export const contextHandler = (prisma: PrismaClient) => (
+  req: Request,
+  res: Response
+): ContextHandler => {
   return { req, res, prisma };
 };
 
-export const context = contextHandler(new PrismaClient());
+export type UnWrap<T> = T extends infer R ? R : T;
+export type Dict = Record<string, any>;
+
+export type Role = "ADMIN" | "USER";

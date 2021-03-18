@@ -1,11 +1,11 @@
 import { allDishes, getDishById } from "./dishes";
-import { allUsers, getUserById } from "./users";
+import { me, allUsers } from "./users";
 
 const Query = {
   allDishes,
   getDishById,
+  me,
   allUsers,
-  getUserById,
 };
 
 export { Query };

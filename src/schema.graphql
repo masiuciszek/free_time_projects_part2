@@ -13,6 +13,11 @@ input CreateDishInput {
   dishType: DishTypeEnum!
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 input CreateUserInput {
   firstName: String!
   lastName: String
@@ -60,6 +65,7 @@ type Query {
   # users
   allUsers: [User]
   getUserById: User!
+  me: User
 }
 
 type Mutation {

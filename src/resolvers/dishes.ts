@@ -1,5 +1,5 @@
 import { BasicArg, Context } from "../types";
-import { to } from "../utils/helpers";
+import { to } from "../utils/async-handlers";
 
 const allDishes = async (parent: undefined, args: undefined, ctx: Context) => {
   const [err, dishes] = await to(ctx.prisma.dish.findMany());

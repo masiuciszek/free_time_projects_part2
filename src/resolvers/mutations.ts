@@ -1,9 +1,10 @@
-import { registerUser, login, deleteMe } from "./users";
+import { login } from "./users";
+// import { registerUser, login, deleteMe } from "./users";
 
 const Mutation = {
-  registerUser,
   login,
-  deleteMe,
+  // registerUser,
+  // deleteMe,
 };
 
 export { Mutation };
