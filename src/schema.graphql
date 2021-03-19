@@ -65,7 +65,7 @@ type Query {
   # users
   allUsers: [User]
   getUserById: User!
-  me: User
+  me: User!
 }
 
 type Mutation {

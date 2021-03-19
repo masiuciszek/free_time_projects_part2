@@ -12,11 +12,15 @@ export type Remapped<T> = {
   ) => any;
 };
 
+export interface FailedResponse {
+  ok: boolean;
+  msg: string;
+}
 export interface Context {
   prisma: PrismaClient;
   req?: Request;
   res?: Response;
-  user?: User;
+  authResponse: User | boolean;
 }
 
 export interface Resolver {
