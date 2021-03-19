@@ -1,9 +1,9 @@
-import { User } from ".prisma/client";
-import bcrypt from "bcryptjs";
-import { Response, Request } from "express";
+// import { User } from ".prisma/client";
+// import bcrypt from "bcryptjs";
+// import { Response, Request } from "express";
 import jwt from "jsonwebtoken";
-import { TokenPayload } from "../types";
-import { to } from "./async-handlers";
+// import { TokenPayload } from "../types";
+// import { to } from "./async-handlers";
 
 // export const hashPassword = async (password: string): Promise<string> => {
 //   const salt = await bcrypt.genSalt(8);

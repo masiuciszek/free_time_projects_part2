@@ -8,7 +8,7 @@ export type Remapped<T> = {
     parent: null | undefined,
     args: FirstArgument<[P]>,
     ctx: Context,
-    info?: GraphQLResolveInfo
+    info?: GraphQLResolveInfo,
   ) => any;
 };
 
@@ -20,11 +20,22 @@ export interface Context {
 }
 
 export interface Resolver {
-  parent: null | undefined;
-  args: any;
-  ctx: Context;
-  info?: GraphQLResolveInfo;
+  parent: UnWrap<Dict>;
+  args: UnWrap<Dict>;
+  context: Context;
+  info: GraphQLResolveInfo;
 }
+
+export type ParentType = Pick<Resolver, "parent">;
+export type ArgsType = Pick<Resolver, "args">;
+export type ContextType = Pick<Resolver, "context">;
+export type InfoType = Pick<Resolver, "info">;
+export type NextFnType = (
+  parent: ParentType,
+  args: ArgsType,
+  context: Context,
+  info: InfoType,
+) => any;
 
 export type BasicArg<T> = {
   [key: string]: T;
@@ -52,7 +63,7 @@ type ContextHandler = Pick<Context, "prisma" | "req" | "res">;
 
 export const contextHandler = (prisma: PrismaClient) => (
   req: Request,
-  res: Response
+  res: Response,
 ): ContextHandler => {
   return { req, res, prisma };
 };

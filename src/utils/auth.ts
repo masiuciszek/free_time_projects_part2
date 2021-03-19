@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { AuthenticationError } from "apollo-server-errors";
 import { Dict, UnWrap, Context, TokenPayload } from "../types";
 import bcrypt from "bcryptjs";
+import { GraphQLArgs, GraphQLResolveInfo } from "graphql";
 
 export const createToken = ({ id }: { id: number }) => jwt.sign({ id }, "secret");
 
@@ -17,9 +18,9 @@ export const getUserFromToken = async (token: string, prisma: PrismaClient) => {
 
 export const authenticated = (next: Function) => async (
   parent: UnWrap<Dict>,
-  args: UnWrap<Dict>,
+  args: GraphQLArgs,
   context: Context,
-  info: UnWrap<Dict>
+  info: GraphQLResolveInfo,
 ) => {
   if (!context.user) {
     throwAuthError();
@@ -33,7 +34,7 @@ export const throwAuthError = (msg = "Not authorized"): Error => {
 
 export const comparePassword = async (
   password: string,
-  passWordToMatch: string
+  passWordToMatch: string,
 ): Promise<boolean> => await bcrypt.compare(password, passWordToMatch);
 
 // const authorized = (role: Role, next: Function) => (
