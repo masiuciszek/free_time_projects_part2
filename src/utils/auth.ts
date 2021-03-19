@@ -12,7 +12,7 @@ export const getUserFromToken = async (token: string, prisma: PrismaClient) => {
     const user = jwt.verify(token, "secret") as TokenPayload;
     return await prisma.user.findUnique({ where: { id: user.user_id } });
   } else {
-    return Promise.resolve({ ok: false, msg: "not authorized" });
+    return false;
   }
 };
 
@@ -22,13 +22,14 @@ export const authenticated = (next: Function) => async (
   context: Context,
   info: GraphQLResolveInfo,
 ) => {
-  if (!context.user) {
+  if (!context.authResponse) {
     throwAuthError();
   }
+
   return next(parent, args, context, info);
 };
 
-export const throwAuthError = (msg = "Not authorized"): Error => {
+export const throwAuthError = (msg = "Not authorized"): AuthenticationError => {
   throw new AuthenticationError(msg);
 };
 
