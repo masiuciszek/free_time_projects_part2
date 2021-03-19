@@ -63,14 +63,7 @@ export interface TokenPayload {
   exp: number;
 }
 
-type ContextHandler = Pick<Context, "prisma" | "req" | "res">;
-
-export const contextHandler = (prisma: PrismaClient) => (
-  req: Request,
-  res: Response,
-): ContextHandler => {
-  return { req, res, prisma };
-};
+export type ContextHandler = Pick<Context, "prisma" | "req" | "res">;
 
 export type UnWrap<T> = T extends infer R ? R : T;
 export type Dict = Record<string, any>;

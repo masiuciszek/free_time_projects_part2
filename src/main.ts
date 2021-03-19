@@ -1,12 +1,11 @@
 import { ApolloServer } from "apollo-server";
-import { contextHandler as handleContext } from "./types";
 import { resolvers } from "./resolvers";
 // import { typeDefs } from "./typedefs";
 import path from "path";
 import fs from "fs";
 // import { sendTokenToResolver } from "./utils/helpers";
-import { getUserFromToken, handleAuthToken } from "./utils/auth";
 import { PrismaClient } from "@prisma/client";
+import { contextFn } from "./context";
 
 (() => {
   const typeDefs = fs.readFileSync(path.join(__dirname, "schema.graphql"), "utf8");
@@ -16,8 +15,7 @@ import { PrismaClient } from "@prisma/client";
     resolvers,
     context: ({ req, res }) => {
       const prisma = new PrismaClient();
-      const context = handleContext(prisma);
-
+      const context = contextFn(prisma);
       return {
         ...context(req, res),
       };
