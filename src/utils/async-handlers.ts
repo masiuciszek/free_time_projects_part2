@@ -4,7 +4,7 @@ export const isOk = <T>(p: Promise<T>) => {
 
 export function to<T, U = Error>(
   promise: Promise<T>,
-  errorObject?: object
+  errorObject?: object,
 ): Promise<[U, undefined] | [null, T]> {
   return promise
     .then<[null, T]>((data: T) => [null, data])

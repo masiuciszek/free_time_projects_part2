@@ -17,12 +17,9 @@ import { PrismaClient } from "@prisma/client";
     context: ({ req, res }) => {
       const prisma = new PrismaClient();
       const context = handleContext(prisma);
-      const token = handleAuthToken(req);
-      const user = getUserFromToken(token ?? "", prisma);
 
       return {
         ...context(req, res),
-        user,
       };
     },
   });

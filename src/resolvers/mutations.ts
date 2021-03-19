@@ -1,8 +1,3 @@
-import { login, registerUser } from "./users";
-
-const Mutation = {
-  login,
-  registerUser,
-};
+const Mutation = {};
 
 export { Mutation };
