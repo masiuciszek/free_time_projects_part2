@@ -120,7 +120,7 @@ const login = async (_: UnWrap<Dict>, { loginInput }: Input<LoginInput>, ctx: Co
 };
 
 const me = authenticated(async (_: UnWrap<Dict>, __: UnWrap<Dict>, ctx: Context) => {
-  console.log(ctx.authResponse);
+  console.log(ctx.authResponse.valueOf());
 
   // return ctx.user;
 });
