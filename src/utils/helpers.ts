@@ -15,22 +15,6 @@ import jwt from "jsonwebtoken";
 //   return token;
 // };
 
-// export const tokenHandler = (user: User, res: Response) => {
-//   const token = generateJwtToken(user);
-//   let date = new Date();
-//   const options = {
-//     expire: date.setHours(date.getHours() + 24),
-//     httpOnly: false,
-//     secure: false,
-//   };
-
-//   if (process.env.NODE_ENV === "production") {
-//     (options.httpOnly = true), (options.secure = true);
-//   }
-//   res?.cookie("token", token, options);
-//   return { token };
-// };
-
 // export const verifyToken = (token: string) => {
 //   return jwt.verify(token, "secret");
 // };

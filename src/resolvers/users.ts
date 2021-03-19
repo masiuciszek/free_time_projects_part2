@@ -1,3 +1,4 @@
+import { AuthenticationError } from "apollo-server-errors";
 import {
   BasicArg,
   Context,
@@ -9,7 +10,14 @@ import {
   TokenPayload,
 } from "../types";
 import { to } from "../utils/async-handlers";
-import { authenticated, comparePassword, createToken, throwAuthError } from "../utils/auth";
+import {
+  authenticated,
+  comparePassword,
+  createToken,
+  hashPassword,
+  throwAuthError,
+  tokenHandler,
+} from "../utils/auth";
 // import { comparePassword, getAuthId, tokenHandler, toStr, verifyToken } from "../utils/helpers";
 
 // const allUsers = async (_: UnWrap<Dict>, __: UnWrap<Dict>, ctx: Context) => {
@@ -38,63 +46,33 @@ import { authenticated, comparePassword, createToken, throwAuthError } from "../
 //   return user;
 // };
 
-// const registerUser = async (
-//   _: UnWrap<Dict>,
-//   { userInput }: Input<RegisterUserInput>,
-//   ctx: Context
-// ) => {
-//   const hashedPassword = await hashPassword(userInput.password);
-
-//   const [err, user] = await to(
-//     ctx.prisma.user.create({
-//       data: {
-//         ...userInput,
-//         password: hashedPassword,
-//       },
-//     })
-//   );
-//   if (!user) {
-//     throw new Error(`oops something wrong happend`);
-//   }
-
-//   let authToken;
-//   if (user && ctx.res) {
-//     const { token } = tokenHandler(user, ctx.res);
-//     authToken = token;
-//   }
-
-//   return { user, token: authToken };
-// };
-
-// const login = async (_: UnWrap<Dict>, { loginInput }: Input<LoginInput>, ctx: Context) => {
-//   const [___, user] = await to(ctx.prisma.user.findUnique({ where: { email: loginInput.email } }));
-//   if (!user) {
-//     throw new Error(`no user with email ${loginInput.email}`);
-//   }
-//   const isValidPassword = await comparePassword(loginInput.password, user.password);
-//   if (!isValidPassword) {
-//     throw new Error(`Could not find user`);
-//   }
-//   let authToken;
-//   if (user && ctx.res) {
-//     const { token } = tokenHandler(user, ctx.res);
-//     authToken = token;
-//   }
-//   return { user, token: authToken };
-// };
-
-// const deleteMe = async (_: UnWrap<Dict>, __: UnWrap<Dict>, ctx: Context) => {
-//   const { user_id } = await getAuthId(Number(ctx.authId));
-//   const user = await ctx.prisma.user.findUnique({ where: { id: user_id } });
-//   return user;
-// };
-
-const allUsers = async (
+const registerUser = async (
   _: UnWrap<Dict>,
-  { loginInput }: Input<LoginInput>,
-  { prisma }: Context
+  { userInput }: Input<RegisterUserInput>,
+  ctx: Context,
 ) => {
-  const [__, users] = await to(prisma.user.findMany());
+  const isExisting = await ctx.prisma.user.findUnique({ where: { email: userInput.email } });
+
+  if (isExisting) {
+    throw new AuthenticationError("sorry no user of this email exists");
+  }
+
+  const hashedPassword = await hashPassword(userInput.password);
+  const user = await ctx.prisma.user.create({
+    data: {
+      ...userInput,
+      password: hashedPassword,
+    },
+  });
+
+  const token = createToken(user);
+  tokenHandler(token, ctx.res);
+
+  return { token, user };
+};
+
+const allUsers = async (_: UnWrap<Dict>, __: UnWrap<Dict>, { prisma }: Context) => {
+  const [___, users] = await to(prisma.user.findMany());
   if (!users) {
     return [];
   }
@@ -122,8 +100,7 @@ const login = async (_: UnWrap<Dict>, { loginInput }: Input<LoginInput>, ctx: Co
 const me = authenticated(async (_: UnWrap<Dict>, __: UnWrap<Dict>, ctx: Context) => {
   console.log(ctx.authResponse.valueOf());
 
-  // return ctx.user;
+  return { name: "foo" };
 });
 
-export { me, login, allUsers };
-// export { allUsers, getUserById, registerUser, login, deleteMe, me };
+export { me, login, allUsers, registerUser };

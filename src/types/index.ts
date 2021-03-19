@@ -18,8 +18,8 @@ export interface FailedResponse {
 }
 export interface Context {
   prisma: PrismaClient;
-  req?: Request;
-  res?: Response;
+  req: Request;
+  res: Response;
   authResponse: User | boolean;
 }
 
@@ -58,7 +58,7 @@ export interface Input<T> {
 }
 
 export interface TokenPayload {
-  user_id: number;
+  userId: number;
   iat: number;
   exp: number;
 }

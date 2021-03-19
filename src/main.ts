@@ -5,7 +5,7 @@ import { resolvers } from "./resolvers";
 import path from "path";
 import fs from "fs";
 // import { sendTokenToResolver } from "./utils/helpers";
-import { getUserFromToken } from "./utils/auth";
+import { getUserFromToken, handleAuthToken } from "./utils/auth";
 import { PrismaClient } from "@prisma/client";
 
 (() => {
@@ -15,10 +15,10 @@ import { PrismaClient } from "@prisma/client";
     typeDefs,
     resolvers,
     context: ({ req, res }) => {
-      const token = req.headers.authorization || "";
       const prisma = new PrismaClient();
       const context = handleContext(prisma);
-      const user = getUserFromToken(token, prisma);
+      const token = handleAuthToken(req);
+      const user = getUserFromToken(token ?? "", prisma);
 
       return {
         ...context(req, res),
@@ -28,6 +28,6 @@ import { PrismaClient } from "@prisma/client";
   });
 
   server.listen(port, () =>
-    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`),
   );
 })();
