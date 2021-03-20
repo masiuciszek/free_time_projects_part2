@@ -2,11 +2,18 @@
 ### Do not make changes to this file directly
 
 
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
 type Dish {
+  createdAt: DateTime!
   dishType: DishType!
-  id: Int
+  id: Int!
+  image: String
   rating: RatingType!
-  title: String
+  title: String!
 }
 
 """Dish type enum"""
@@ -17,19 +24,23 @@ enum DishType {
   STARTER
 }
 
-input MakeDishInputType {
+input MakeDishInput {
   dishType: DishType!
+  image: String
+  ownerId: Int
   rating: RatingType!
   title: String!
 }
 
 type Mutation {
-  createDish(MakeDishInputType: MakeDishInputType!): Dish
+  createDish(MakeDishInput: MakeDishInput!): Dish
+  updateDish(updateDishInput: UpdateDishInput!): Dish
 }
 
 type Query {
   dishById(id: Int): Dish
   dishes: [Dish]!
+  filterDishes(searchString: String): [Dish]
 }
 
 """enum to generating rating for the dish"""
@@ -39,4 +50,18 @@ enum RatingType {
   ONE
   THREE
   TWO
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+"""input for updating an dish"""
+input UpdateDishInput {
+  dishType: DishType
+  id: Int
+  image: String
+  rating: RatingType
+  title: String
 }

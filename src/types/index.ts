@@ -30,17 +30,6 @@ export interface Resolver {
   info: GraphQLResolveInfo;
 }
 
-export type ParentType = Pick<Resolver, "parent">;
-export type ArgsType = Pick<Resolver, "args">;
-export type ContextType = Pick<Resolver, "context">;
-export type InfoType = Pick<Resolver, "info">;
-export type NextFnType = (
-  parent: ParentType,
-  args: ArgsType,
-  context: Context,
-  info: InfoType,
-) => any;
-
 export type ArgType<T> = {
   [key: string]: T;
 };
@@ -72,14 +61,15 @@ export type Role = "ADMIN" | "USER";
 export type DishType = "STARTER" | "MAIN" | "SIDE" | "DESSERT";
 
 enum Rating {
-  "ONE" = 1,
-  "TWO" = 2,
-  "THREE" = 3,
-  "FOUR" = 4,
-  "FIVE" = 5,
+  "ONE",
+  "TWO",
+  "THREE",
+  "FOUR",
+  "FIVE",
 }
 export interface IMakeDishInput {
   title: string;
   rating: Rating;
   dishType: DishType;
+  image?: string;
 }

@@ -1,3 +1,4 @@
-# Super-sushi
+# Slice-of-the-day
 
-Special Sushi place in my hart, built with modern tools like `Graphql`, `Prisma`, `sql`,`typescript`
+Bread slices and stuff.
+Built with modern tools like `Graphql`, `Prisma`, `sql`,`typescript`

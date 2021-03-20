@@ -10,7 +10,7 @@ import {
 } from "nexus";
 
 import { Context } from "../context";
-import { Input, IMakeDishInput, ArgsType, ArgType } from "../types";
+import { Input, IMakeDishInput, ArgType } from "../types";
 
 export const DishType = enumType({
   name: "DishType",
@@ -21,35 +21,52 @@ export const DishType = enumType({
 export const RatingType = enumType({
   name: "RatingType",
   description: "enum to generating rating for the dish",
-  members: {
-    ONE: 1,
-    TWO: 2,
-    THREE: 3,
-    FOUR: 4,
-    FIVE: 5,
+  members: ["ONE", "TWO", "THREE", "FOUR", "FIVE"],
+});
+
+export const MakeDishInput = inputObjectType({
+  name: "MakeDishInput",
+  definition(t) {
+    t.nonNull.string("title"),
+      t.nullable.string("image"),
+      t.nullable.int("ownerId"),
+      t.nonNull.field("rating", { type: "RatingType" });
+    t.nonNull.field("dishType", { type: "DishType" });
   },
 });
 
-export const MakeDishInputType = inputObjectType({
-  name: "MakeDishInputType",
+export const UpdateDishInput = inputObjectType({
+  name: "UpdateDishInput",
+  description: "input for updating an dish",
   definition(t) {
-    t.nonNull.string("title"), t.nonNull.field("rating", { type: "RatingType" });
-    t.nonNull.field("dishType", { type: "DishType" });
+    t.nullable.string("title"),
+      t.nullable.string("image"),
+      t.nullable.int("id"),
+      t.nullable.field("rating", { type: "RatingType" });
+    t.nullable.field("dishType", { type: "DishType" });
   },
 });
 
 export const Dish = objectType({
   name: "Dish",
   definition(t) {
-    t.int("id"),
-      t.nonNull.field("rating", { type: "RatingType" }),
-      t.nonNull.field("dishType", { type: "DishType" }),
-      t.string("title");
+    t.nonNull.int("id"), t.nonNull.string("title");
+    t.nonNull.field("rating", { type: "RatingType" }),
+      t.nonNull.field("dishType", { type: "DishType" });
+    t.string("image");
+    t.nonNull.field("createdAt", { type: "DateTime" });
   },
 });
 
-export const DishQuery = extendType({
-  type: "Query",
+// image String?
+// ownerId  Int?
+// ingredients Ingredient[]
+// author    User?    @relation(fields: [ownerId], references: [id])
+// comments   Comment[] // A post can have many comments
+// createdAt   DateTime @default(now())
+
+export const Query = objectType({
+  name: "Query",
   definition(t) {
     t.nonNull.list.field("dishes", {
       type: "Dish",
@@ -62,30 +79,67 @@ export const DishQuery = extendType({
       args: {
         id: intArg(),
       },
-      resolve: async (_parent, { id }: ArgType<number>, { prisma }: Context) => {
+      resolve: async (_parent, { id }, { prisma }: Context) => {
         return await prisma.dish.findUnique({ where: { id } });
+      },
+    });
+
+    t.list.field("filterDishes", {
+      type: "Dish",
+      args: {
+        searchString: stringArg(),
+      },
+      resolve: async (_parent, { searchString }, { prisma }: Context) => {
+        return await prisma.dish.findMany({
+          where: {
+            title: {
+              startsWith: searchString,
+            },
+          },
+        });
       },
     });
   },
 });
 
-export const DishMutation = extendType({
-  type: "Mutation",
+export const Mutation = objectType({
+  name: "Mutation",
   definition(t) {
-    t.field("createDish", {
+    t.nullable.field("createDish", {
       type: "Dish",
       args: {
-        MakeDishInputType: nonNull(arg({ type: "MakeDishInputType" })),
+        MakeDishInput: nonNull(arg({ type: "MakeDishInput" })),
       },
-      async resolve(_root, { MakeDishInputType }: Input<IMakeDishInput>, { prisma }: Context) {
-        // todo / check if dish exists
+      async resolve(_root, args, { prisma }: Context) {
+        const isExisting = await prisma.dish.findUnique({
+          where: { title: args.MakeDishInput.title },
+        });
+        if (isExisting) {
+          throw new Error(`dish ${args.MakeDishInput.title} already exists`);
+        }
         const dish = await prisma.dish.create({
           data: {
-            ...MakeDishInputType,
+            ...args.MakeDishInput,
           },
         });
-
         return dish;
+      },
+    });
+    t.field("updateDish", {
+      type: "Dish",
+      args: {
+        updateDishInput: nonNull(
+          arg({
+            type: UpdateDishInput,
+          }),
+        ),
+      },
+      async resolve(_root, { updateDishInput }, { prisma }: Context) {
+        console.log(updateDishInput);
+        return await prisma.dish.update({
+          where: { id: updateDishInput.id },
+          data: { ...updateDishInput },
+        });
       },
     });
   },

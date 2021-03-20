@@ -19,7 +19,10 @@
     "seed": "ts-node ./src/seed.ts",
     "dev": "nodemon --exec ts-node src/main.ts",
     "run-script": "ts-node script.ts",
-    "dev-nex": "ts-node-dev --transpile-only --no-notify src/main.ts"
+    "dev-x": "ts-node-dev --transpile-only --no-notify src/main.ts",
+    "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "ts-node --transpile-only src/schema"
   },
   "dependencies": {
     "@prisma/client": "2.18.0",

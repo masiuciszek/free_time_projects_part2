@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -7,19 +7,46 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Rating {
+  ONE
+  TWO
+  THREE
+  FOUR
+  FIVE
+}
+
+enum Flavour {
+  MILD
+  MEDEUM
+  SPICY
+}
+
+enum DishType {
+  STARTER
+   MAIN
+   SIDE
+   DESSERT
+}
+
 model Dish {
   id        Int     @id @default(autoincrement())
   title     String @unique
-  dishType   String
-  rating Int
+  dishType   DishType
+  rating Rating
   image String?
   ownerId  Int?
+  ingredients Ingredient[]
   author    User?    @relation(fields: [ownerId], references: [id])
   comments   Comment[] // A post can have many comments
-
   createdAt   DateTime @default(now())
+}
 
-
+model Ingredient{
+  id Int @id @default(autoincrement())
+  name String
+  flavour Flavour
+  dishId Int
+  dish Dish @relation(fields: [dishId],references:[id])
 }
 
 model User {
@@ -30,14 +57,11 @@ model User {
   password String
   dishes Dish[]
   comments Comment[] // A post can have many comments
-
   createdAt   DateTime @default(now())
-
 }
 
 
 model Comment {
-
   text String
   Dish    Dish  @relation(fields: [dishId], references: [id]) // A comment can have one post
   dishId  Int

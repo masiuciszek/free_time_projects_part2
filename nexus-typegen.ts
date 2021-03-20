@@ -5,8 +5,23 @@
 
 
 import { Context } from "./src/context"
-
-
+import { core } from "nexus"
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    date<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "DateTime";
+  }
+}
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
+  }
+}
 
 
 declare global {
@@ -14,16 +29,26 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  MakeDishInputType: { // input type
+  MakeDishInput: { // input type
     dishType: NexusGenEnums['DishType']; // DishType!
+    image?: string | null; // String
+    ownerId?: number | null; // Int
     rating: NexusGenEnums['RatingType']; // RatingType!
     title: string; // String!
+  }
+  UpdateDishInput: { // input type
+    dishType?: NexusGenEnums['DishType'] | null; // DishType
+    id?: number | null; // Int
+    image?: string | null; // String
+    rating?: NexusGenEnums['RatingType'] | null; // RatingType
+    title?: string | null; // String
   }
 }
 
 export interface NexusGenEnums {
   DishType: "DESSERT" | "MAIN" | "SIDE" | "STARTER"
-  RatingType: 5 | 4 | 1 | 3 | 2
+  RatingType: "FIVE" | "FOUR" | "ONE" | "THREE" | "TWO"
+  SortOrder: "asc" | "desc"
 }
 
 export interface NexusGenScalars {
@@ -32,14 +57,17 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  DateTime: any
 }
 
 export interface NexusGenObjects {
   Dish: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     dishType: NexusGenEnums['DishType']; // DishType!
-    id?: number | null; // Int
+    id: number; // Int!
+    image?: string | null; // String
     rating: NexusGenEnums['RatingType']; // RatingType!
-    title?: string | null; // String
+    title: string; // String!
   }
   Mutation: {};
   Query: {};
@@ -57,45 +85,59 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnu
 
 export interface NexusGenFieldTypes {
   Dish: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     dishType: NexusGenEnums['DishType']; // DishType!
-    id: number | null; // Int
+    id: number; // Int!
+    image: string | null; // String
     rating: NexusGenEnums['RatingType']; // RatingType!
-    title: string | null; // String
+    title: string; // String!
   }
   Mutation: { // field return type
     createDish: NexusGenRootTypes['Dish'] | null; // Dish
+    updateDish: NexusGenRootTypes['Dish'] | null; // Dish
   }
   Query: { // field return type
     dishById: NexusGenRootTypes['Dish'] | null; // Dish
     dishes: Array<NexusGenRootTypes['Dish'] | null>; // [Dish]!
+    filterDishes: Array<NexusGenRootTypes['Dish'] | null> | null; // [Dish]
   }
 }
 
 export interface NexusGenFieldTypeNames {
   Dish: { // field return type name
+    createdAt: 'DateTime'
     dishType: 'DishType'
     id: 'Int'
+    image: 'String'
     rating: 'RatingType'
     title: 'String'
   }
   Mutation: { // field return type name
     createDish: 'Dish'
+    updateDish: 'Dish'
   }
   Query: { // field return type name
     dishById: 'Dish'
     dishes: 'Dish'
+    filterDishes: 'Dish'
   }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
     createDish: { // args
-      MakeDishInputType: NexusGenInputs['MakeDishInputType']; // MakeDishInputType!
+      MakeDishInput: NexusGenInputs['MakeDishInput']; // MakeDishInput!
+    }
+    updateDish: { // args
+      updateDishInput: NexusGenInputs['UpdateDishInput']; // UpdateDishInput!
     }
   }
   Query: {
     dishById: { // args
       id?: number | null; // Int
+    }
+    filterDishes: { // args
+      searchString?: string | null; // String
     }
   }
 }
