@@ -1,12 +1,16 @@
 import { PrismaClient } from "@prisma/client";
-import { ContextHandler } from "./types";
 import { Request, Response } from "express";
 
-export const contextFn = (prisma: PrismaClient) => (
-  req: Request,
-  res: Response,
-): ContextHandler => ({
-  req,
-  res,
-  prisma,
-});
+export interface Context {
+  req: Request;
+  res: Response;
+  prisma: PrismaClient;
+}
+
+export function createContext(req: Request, res: Response) {
+  return {
+    ...req,
+    ...res,
+    prisma: new PrismaClient(),
+  };
+}

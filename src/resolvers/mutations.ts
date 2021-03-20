@@ -1,3 +1,0 @@
-const Mutation = {};
-
-export { Mutation };
