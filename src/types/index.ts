@@ -41,7 +41,7 @@ export type NextFnType = (
   info: InfoType,
 ) => any;
 
-export type BasicArg<T> = {
+export type ArgType<T> = {
   [key: string]: T;
 };
 

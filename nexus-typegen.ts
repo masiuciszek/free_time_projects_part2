@@ -66,6 +66,7 @@ export interface NexusGenFieldTypes {
     createDish: NexusGenRootTypes['Dish'] | null; // Dish
   }
   Query: { // field return type
+    dishById: NexusGenRootTypes['Dish'] | null; // Dish
     dishes: Array<NexusGenRootTypes['Dish'] | null>; // [Dish]!
   }
 }
@@ -81,6 +82,7 @@ export interface NexusGenFieldTypeNames {
     createDish: 'Dish'
   }
   Query: { // field return type name
+    dishById: 'Dish'
     dishes: 'Dish'
   }
 }
@@ -89,6 +91,11 @@ export interface NexusGenArgTypes {
   Mutation: {
     createDish: { // args
       MakeDishInputType: NexusGenInputs['MakeDishInputType']; // MakeDishInputType!
+    }
+  }
+  Query: {
+    dishById: { // args
+      id?: number | null; // Int
     }
   }
 }

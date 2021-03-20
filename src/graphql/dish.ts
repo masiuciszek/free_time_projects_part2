@@ -1,7 +1,16 @@
-import { objectType, extendType, stringArg, nonNull, enumType, inputObjectType, arg } from "nexus";
+import {
+  objectType,
+  extendType,
+  stringArg,
+  nonNull,
+  enumType,
+  inputObjectType,
+  arg,
+  intArg,
+} from "nexus";
 
 import { Context } from "../context";
-import { Input, IMakeDishInput } from "../types";
+import { Input, IMakeDishInput, ArgsType, ArgType } from "../types";
 
 export const DishType = enumType({
   name: "DishType",
@@ -46,6 +55,15 @@ export const DishQuery = extendType({
       type: "Dish",
       async resolve(_root, _args, ctx: Context) {
         return await ctx.prisma.dish.findMany();
+      },
+    });
+    t.nullable.field("dishById", {
+      type: "Dish",
+      args: {
+        id: intArg(),
+      },
+      resolve: async (_parent, { id }: ArgType<number>, { prisma }: Context) => {
+        return await prisma.dish.findUnique({ where: { id } });
       },
     });
   },
