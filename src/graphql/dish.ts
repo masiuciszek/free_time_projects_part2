@@ -1,5 +1,7 @@
-import { enumType, extendType, objectType } from "nexus";
+import { objectType, extendType, stringArg, nonNull, enumType, inputObjectType, arg } from "nexus";
+
 import { Context } from "../context";
+import { Input, IMakeDishInput } from "../types";
 
 export const DishType = enumType({
   name: "DishType",
@@ -16,6 +18,14 @@ export const RatingType = enumType({
     THREE: 3,
     FOUR: 4,
     FIVE: 5,
+  },
+});
+
+export const MakeDishInputType = inputObjectType({
+  name: "MakeDishInputType",
+  definition(t) {
+    t.nonNull.string("title"), t.nonNull.field("rating", { type: "RatingType" });
+    t.nonNull.field("dishType", { type: "DishType" });
   },
 });
 
@@ -36,6 +46,28 @@ export const DishQuery = extendType({
       type: "Dish",
       async resolve(_root, _args, ctx: Context) {
         return await ctx.prisma.dish.findMany();
+      },
+    });
+  },
+});
+
+export const DishMutation = extendType({
+  type: "Mutation",
+  definition(t) {
+    t.field("createDish", {
+      type: "Dish",
+      args: {
+        MakeDishInputType: nonNull(arg({ type: "MakeDishInputType" })),
+      },
+      async resolve(_root, { MakeDishInputType }: Input<IMakeDishInput>, { prisma }: Context) {
+        // todo / check if dish exists
+        const dish = await prisma.dish.create({
+          data: {
+            ...MakeDishInputType,
+          },
+        });
+
+        return dish;
       },
     });
   },

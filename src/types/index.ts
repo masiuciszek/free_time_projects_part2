@@ -69,3 +69,17 @@ export type UnWrap<T> = T extends infer R ? R : T;
 export type Dict = Record<string, any>;
 
 export type Role = "ADMIN" | "USER";
+export type DishType = "STARTER" | "MAIN" | "SIDE" | "DESSERT";
+
+enum Rating {
+  "ONE" = 1,
+  "TWO" = 2,
+  "THREE" = 3,
+  "FOUR" = 4,
+  "FIVE" = 5,
+}
+export interface IMakeDishInput {
+  title: string;
+  rating: Rating;
+  dishType: DishType;
+}

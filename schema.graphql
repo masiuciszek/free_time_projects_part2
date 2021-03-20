@@ -17,6 +17,16 @@ enum DishType {
   STARTER
 }
 
+input MakeDishInputType {
+  dishType: DishType!
+  rating: RatingType!
+  title: String!
+}
+
+type Mutation {
+  createDish(MakeDishInputType: MakeDishInputType!): Dish
+}
+
 type Query {
   dishes: [Dish]!
 }

@@ -14,6 +14,11 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  MakeDishInputType: { // input type
+    dishType: NexusGenEnums['DishType']; // DishType!
+    rating: NexusGenEnums['RatingType']; // RatingType!
+    title: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -36,6 +41,7 @@ export interface NexusGenObjects {
     rating: NexusGenEnums['RatingType']; // RatingType!
     title?: string | null; // String
   }
+  Mutation: {};
   Query: {};
 }
 
@@ -56,6 +62,9 @@ export interface NexusGenFieldTypes {
     rating: NexusGenEnums['RatingType']; // RatingType!
     title: string | null; // String
   }
+  Mutation: { // field return type
+    createDish: NexusGenRootTypes['Dish'] | null; // Dish
+  }
   Query: { // field return type
     dishes: Array<NexusGenRootTypes['Dish'] | null>; // [Dish]!
   }
@@ -68,12 +77,20 @@ export interface NexusGenFieldTypeNames {
     rating: 'RatingType'
     title: 'String'
   }
+  Mutation: { // field return type name
+    createDish: 'Dish'
+  }
   Query: { // field return type name
     dishes: 'Dish'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createDish: { // args
+      MakeDishInputType: NexusGenInputs['MakeDishInputType']; // MakeDishInputType!
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
@@ -84,7 +101,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 

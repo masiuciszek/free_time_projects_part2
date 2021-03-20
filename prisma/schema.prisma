@@ -9,7 +9,7 @@ generator client {
 
 model Dish {
   id        Int     @id @default(autoincrement())
-  title     String
+  title     String @unique
   dishType   String
   rating Int
   image String?
