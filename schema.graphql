@@ -2,6 +2,26 @@
 ### Do not make changes to this file directly
 
 
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type Comment {
+  Dish: Dish!
+  author: User!
+  dishId: Int!
+  ownerId: Int!
+}
+
+input CreateDishInput {
+  dishType: DishType!
+  image: String
+  ownerId: Int
+  rating: RatingType!
+  title: String!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -24,16 +44,13 @@ enum DishType {
   STARTER
 }
 
-input MakeDishInput {
-  dishType: DishType!
-  image: String
-  ownerId: Int
-  rating: RatingType!
-  title: String!
-}
-
 type Mutation {
-  createDish(MakeDishInput: MakeDishInput!): Dish
+  createDish(CreateDishInput: CreateDishInput!): Dish
+  deleteDish(
+    """dish id to be able to remove the dish"""
+    id: Int
+  ): Dish!
+  register(input: RegisterUserInput!): User
   updateDish(updateDishInput: UpdateDishInput!): Dish
 }
 
@@ -52,6 +69,13 @@ enum RatingType {
   TWO
 }
 
+input RegisterUserInput {
+  email: String!
+  firstName: String!
+  lastName: String
+  password: String!
+}
+
 enum SortOrder {
   asc
   desc
@@ -64,4 +88,15 @@ input UpdateDishInput {
   image: String
   rating: RatingType
   title: String
+}
+
+type User {
+  comments: [Comment]
+  createdAt: DateTime!
+  dishes: [Dish]
+  email: String!
+  firstName: String!
+  id: Int!
+  lastName: String
+  password: String!
 }

@@ -30,10 +30,6 @@ export interface Resolver {
   info: GraphQLResolveInfo;
 }
 
-export type ArgType<T> = {
-  [key: string]: T;
-};
-
 export interface RegisterUserInput {
   firstName: string;
   lastName: string;
@@ -71,5 +67,12 @@ export interface IMakeDishInput {
   title: string;
   rating: Rating;
   dishType: DishType;
+  image?: string;
+}
+export interface IUpdateDishInput {
+  id: number;
+  title?: string;
+  rating?: Rating;
+  dishType?: DishType;
   image?: string;
 }

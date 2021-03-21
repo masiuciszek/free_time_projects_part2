@@ -63,7 +63,7 @@ model User {
 
 model Comment {
   text String
-  Dish    Dish  @relation(fields: [dishId], references: [id]) // A comment can have one post
+  dish    Dish  @relation(fields: [dishId], references: [id]) // A comment can have one post
   dishId  Int
   ownerId Int
   author User @relation(fields: [ownerId], references: [id])

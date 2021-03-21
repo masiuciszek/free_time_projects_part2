@@ -7,10 +7,13 @@ export interface Context {
   prisma: PrismaClient;
 }
 
+// one instance
+const prisma = new PrismaClient();
+
 export function createContext(req: Request, res: Response) {
   return {
     ...req,
     ...res,
-    prisma: new PrismaClient(),
+    prisma,
   };
 }
