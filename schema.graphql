@@ -50,6 +50,13 @@ type Mutation {
     """dish id to be able to remove the dish"""
     id: Int
   ): Dish!
+  login(
+    """unique email argument """
+    email: String
+
+    """users password to be able to login """
+    password: String
+  ): AuthPayload
   register(input: RegisterUserInput!): AuthPayload
   updateDish(updateDishInput: UpdateDishInput!): Dish
 }
@@ -58,6 +65,8 @@ type Query {
   dishById(id: Int): Dish
   dishes: [Dish]!
   filterDishes(searchString: String): [Dish]
+  me: User
+  users: [User]
 }
 
 """enum to generating rating for the dish"""

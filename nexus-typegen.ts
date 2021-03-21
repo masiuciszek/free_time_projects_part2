@@ -133,6 +133,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createDish: NexusGenRootTypes['Dish'] | null; // Dish
     deleteDish: NexusGenRootTypes['Dish']; // Dish!
+    login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     register: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     updateDish: NexusGenRootTypes['Dish'] | null; // Dish
   }
@@ -140,6 +141,8 @@ export interface NexusGenFieldTypes {
     dishById: NexusGenRootTypes['Dish'] | null; // Dish
     dishes: Array<NexusGenRootTypes['Dish'] | null>; // [Dish]!
     filterDishes: Array<NexusGenRootTypes['Dish'] | null> | null; // [Dish]
+    me: NexusGenRootTypes['User'] | null; // User
+    users: Array<NexusGenRootTypes['User'] | null> | null; // [User]
   }
   User: { // field return type
     comments: Array<NexusGenRootTypes['Comment'] | null> | null; // [Comment]
@@ -175,6 +178,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createDish: 'Dish'
     deleteDish: 'Dish'
+    login: 'AuthPayload'
     register: 'AuthPayload'
     updateDish: 'Dish'
   }
@@ -182,6 +186,8 @@ export interface NexusGenFieldTypeNames {
     dishById: 'Dish'
     dishes: 'Dish'
     filterDishes: 'Dish'
+    me: 'User'
+    users: 'User'
   }
   User: { // field return type name
     comments: 'Comment'
@@ -202,6 +208,10 @@ export interface NexusGenArgTypes {
     }
     deleteDish: { // args
       id?: number | null; // Int
+    }
+    login: { // args
+      email?: string | null; // String
+      password?: string | null; // String
     }
     register: { // args
       input: NexusGenInputs['RegisterUserInput']; // RegisterUserInput!

@@ -1,7 +1,8 @@
-import { arg, extendType, intArg, nonNull } from "nexus";
+import { AuthenticationError } from "apollo-server-errors";
+import { arg, extendType, intArg, nonNull, stringArg } from "nexus";
 
 import { Context } from "../context";
-import { createToken, hashPassword } from "../utils/auth";
+import { comparePassword, createToken, hashPassword, tokenHandler } from "../utils/auth";
 
 export const Mutation = extendType({
   type: "Mutation",
@@ -65,7 +66,7 @@ export const Mutation = extendType({
       args: {
         input: nonNull(arg({ type: "RegisterUserInput" })),
       },
-      resolve: async (_parent, args, { prisma }: Context) => {
+      resolve: async (_parent, args, { prisma, res }: Context) => {
         const isUsersExists = await prisma.user.findUnique({
           where: { email: args.input.email },
         });
@@ -81,8 +82,35 @@ export const Mutation = extendType({
         });
 
         const token = createToken(user);
-        // TODO: Send a cookie from here
+        tokenHandler(token, res);
         return { token, user };
+      },
+    });
+    t.field("login", {
+      type: "AuthPayload",
+      args: {
+        email: stringArg({ description: "unique email argument " }),
+        password: stringArg({ description: "users password to be able to login " }),
+      },
+      resolve: async (_parent, args, { prisma, res }: Context) => {
+        const user = await prisma.user.findUnique({
+          where: {
+            email: args.email,
+          },
+        });
+        if (!user) {
+          throw new AuthenticationError(`No user with ${args.email}`);
+        }
+        const isPasswordValid = await comparePassword(args.password, user.password);
+        if (!isPasswordValid) {
+          throw new AuthenticationError(`Auth error`);
+        }
+        const token = createToken(user);
+        tokenHandler(token, res);
+        return {
+          token,
+          user,
+        };
       },
     });
   },

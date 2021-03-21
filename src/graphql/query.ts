@@ -1,6 +1,8 @@
 import { extendType, intArg, stringArg } from "nexus";
 import { Context } from "../context";
 
+import variables from "../config";
+
 export const Query = extendType({
   type: "Query",
   definition(t) {
@@ -34,6 +36,15 @@ export const Query = extendType({
           },
         });
       },
+    });
+    t.list.field("users", {
+      type: "User",
+      resolve: async (_parent, _args, { prisma }: Context) => {
+        return await prisma.user.findMany();
+      },
+    });
+    t.field("me", {
+      type: "User",
     });
   },
 });
