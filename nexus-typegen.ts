@@ -41,6 +41,7 @@ export interface NexusGenInputs {
     firstName: string; // String!
     lastName?: string | null; // String
     password: string; // String!
+    role?: NexusGenEnums['UserRole'] | null; // UserRole
   }
   UpdateDishInput: { // input type
     dishType?: NexusGenEnums['DishType'] | null; // DishType
@@ -55,6 +56,7 @@ export interface NexusGenEnums {
   DishType: "DESSERT" | "MAIN" | "SIDE" | "STARTER"
   RatingType: "FIVE" | "FOUR" | "ONE" | "THREE" | "TWO"
   SortOrder: "asc" | "desc"
+  UserRole: "ADMIN" | "USER"
 }
 
 export interface NexusGenScalars {
@@ -72,8 +74,8 @@ export interface NexusGenObjects {
     user?: NexusGenRootTypes['User'] | null; // User
   }
   Comment: { // root type
-    Dish: NexusGenRootTypes['Dish']; // Dish!
     author: NexusGenRootTypes['User']; // User!
+    dish: NexusGenRootTypes['Dish']; // Dish!
     dishId: number; // Int!
     ownerId: number; // Int!
   }
@@ -115,8 +117,8 @@ export interface NexusGenFieldTypes {
     user: NexusGenRootTypes['User'] | null; // User
   }
   Comment: { // field return type
-    Dish: NexusGenRootTypes['Dish']; // Dish!
     author: NexusGenRootTypes['User']; // User!
+    dish: NexusGenRootTypes['Dish']; // Dish!
     dishId: number; // Int!
     ownerId: number; // Int!
   }
@@ -131,7 +133,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createDish: NexusGenRootTypes['Dish'] | null; // Dish
     deleteDish: NexusGenRootTypes['Dish']; // Dish!
-    register: NexusGenRootTypes['User'] | null; // User
+    register: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     updateDish: NexusGenRootTypes['Dish'] | null; // Dish
   }
   Query: { // field return type
@@ -157,8 +159,8 @@ export interface NexusGenFieldTypeNames {
     user: 'User'
   }
   Comment: { // field return type name
-    Dish: 'Dish'
     author: 'User'
+    dish: 'Dish'
     dishId: 'Int'
     ownerId: 'Int'
   }
@@ -173,7 +175,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createDish: 'Dish'
     deleteDish: 'Dish'
-    register: 'User'
+    register: 'AuthPayload'
     updateDish: 'Dish'
   }
   Query: { // field return type name

@@ -8,8 +8,8 @@ type AuthPayload {
 }
 
 type Comment {
-  Dish: Dish!
   author: User!
+  dish: Dish!
   dishId: Int!
   ownerId: Int!
 }
@@ -50,7 +50,7 @@ type Mutation {
     """dish id to be able to remove the dish"""
     id: Int
   ): Dish!
-  register(input: RegisterUserInput!): User
+  register(input: RegisterUserInput!): AuthPayload
   updateDish(updateDishInput: UpdateDishInput!): Dish
 }
 
@@ -74,6 +74,7 @@ input RegisterUserInput {
   firstName: String!
   lastName: String
   password: String!
+  role: UserRole
 }
 
 enum SortOrder {
@@ -99,4 +100,10 @@ type User {
   id: Int!
   lastName: String
   password: String!
+}
+
+"""User role"""
+enum UserRole {
+  ADMIN
+  USER
 }

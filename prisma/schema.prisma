@@ -28,6 +28,11 @@ enum DishType {
    DESSERT
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model Dish {
   id        Int     @id @default(autoincrement())
   title     String @unique
@@ -56,6 +61,7 @@ model User {
   lastName  String?
   password String
   dishes Dish[]
+  role Role @default(USER)
   comments Comment[] // A post can have many comments
   createdAt   DateTime @default(now())
 }

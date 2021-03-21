@@ -1,5 +1,7 @@
 import { arg, extendType, intArg, nonNull } from "nexus";
+
 import { Context } from "../context";
+import { createToken, hashPassword } from "../utils/auth";
 
 export const Mutation = extendType({
   type: "Mutation",
@@ -57,8 +59,9 @@ export const Mutation = extendType({
         return dish;
       },
     });
+
     t.field("register", {
-      type: "User",
+      type: "AuthPayload",
       args: {
         input: nonNull(arg({ type: "RegisterUserInput" })),
       },
@@ -69,12 +72,17 @@ export const Mutation = extendType({
         if (isUsersExists) {
           throw new Error("User already exists!");
         }
-
-        return await prisma.user.create({
+        const hashedPassword = await hashPassword(args.input.password);
+        const user = await prisma.user.create({
           data: {
             ...args.input,
+            password: hashedPassword,
           },
         });
+
+        const token = createToken(user);
+        // TODO: Send a cookie from here
+        return { token, user };
       },
     });
   },

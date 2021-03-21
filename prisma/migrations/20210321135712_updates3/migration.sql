@@ -7,6 +7,9 @@ CREATE TYPE "Flavour" AS ENUM ('MILD', 'MEDEUM', 'SPICY');
 -- CreateEnum
 CREATE TYPE "DishType" AS ENUM ('STARTER', 'MAIN', 'SIDE', 'DESSERT');
 
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
+
 -- CreateTable
 CREATE TABLE "Dish" (
     "id" SERIAL NOT NULL,
@@ -37,6 +40,7 @@ CREATE TABLE "User" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT,
     "password" TEXT NOT NULL,
+    "role" "Role" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY ("id")

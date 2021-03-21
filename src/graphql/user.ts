@@ -1,4 +1,10 @@
-import { inputObjectType, objectType } from "nexus";
+import { enumType, inputObjectType, objectType } from "nexus";
+
+export const UserRole = enumType({
+  name: "UserRole",
+  members: ["USER", "ADMIN"],
+  description: "User role",
+});
 
 export const AuthPayload = objectType({
   name: "AuthPayload",
@@ -15,6 +21,7 @@ export const RegisterUserInput = inputObjectType({
     t.nullable.string("lastName");
     t.nonNull.string("email");
     t.nonNull.string("password");
+    t.nullable.field("role", { type: "UserRole" });
   },
 });
 

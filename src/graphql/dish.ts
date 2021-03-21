@@ -1,15 +1,4 @@
-import {
-  objectType,
-  extendType,
-  stringArg,
-  nonNull,
-  enumType,
-  inputObjectType,
-  arg,
-  intArg,
-} from "nexus";
-
-import { Context } from "../context";
+import { objectType, enumType, inputObjectType } from "nexus";
 
 export const DishType = enumType({
   name: "DishType",
