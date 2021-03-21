@@ -2,6 +2,8 @@ import { extendType, intArg, stringArg } from "nexus";
 import { Context } from "../context";
 
 import variables from "../config";
+import { getUserId } from "../utils/auth";
+import { AuthenticationError } from "apollo-server-errors";
 
 export const Query = extendType({
   type: "Query",
@@ -45,6 +47,17 @@ export const Query = extendType({
     });
     t.field("me", {
       type: "User",
+      resolve: async (_parent, _args, ctx: Context) => {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new AuthenticationError(`you are not authenticated`);
+        }
+        return await ctx.prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+        });
+      },
     });
   },
 });

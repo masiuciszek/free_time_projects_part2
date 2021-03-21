@@ -36,7 +36,7 @@ const verifyToken = (token: string, secret: string) => {
 export const getUserId = ({ req }: Context) => {
   const authHeader = req.get("Authorization");
   if (authHeader && authHeader.startsWith(BEARER)) {
-    const token = authHeader.replace(BEARER, "");
+    const token = authHeader.replace(BEARER, "").trim();
     const verifiedToken = verifyToken(token, variables.jwt_scrert);
     return verifiedToken && Number(verifiedToken.userId);
   }
