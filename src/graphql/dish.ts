@@ -12,6 +12,14 @@ export const RatingType = enumType({
   members: ["ONE", "TWO", "THREE", "FOUR", "FIVE"],
 });
 
+export const DishPayload = objectType({
+  name: "DishPayload",
+  definition(t) {
+    t.boolean("success");
+    t.field("dish", { type: "Dish" });
+  },
+});
+
 export const CreateDishInput = inputObjectType({
   name: "CreateDishInput",
   definition(t) {
@@ -43,6 +51,7 @@ export const Dish = objectType({
     t.nonNull.field("rating", { type: "RatingType" });
     t.nonNull.field("dishType", { type: "DishType" });
     t.string("image");
+    t.nonNull.field("author", { type: "User" });
     t.nonNull.field("createdAt", { type: "DateTime" });
   },
 });

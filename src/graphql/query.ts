@@ -1,7 +1,5 @@
 import { extendType, intArg, stringArg } from "nexus";
 import { Context } from "../context";
-
-import variables from "../config";
 import { getUserId } from "../utils/auth";
 import { AuthenticationError } from "apollo-server-errors";
 
@@ -11,7 +9,7 @@ export const Query = extendType({
     t.nonNull.list.field("dishes", {
       type: "Dish",
       async resolve(_root, _args, ctx: Context) {
-        return await ctx.prisma.dish.findMany();
+        return await ctx.prisma.dish.findMany({ include: { author: true } });
       },
     });
     t.nullable.field("dishById", {

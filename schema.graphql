@@ -28,12 +28,18 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Dish {
+  author: User!
   createdAt: DateTime!
   dishType: DishType!
   id: Int!
   image: String
   rating: RatingType!
   title: String!
+}
+
+type DishPayload {
+  dish: Dish
+  success: Boolean
 }
 
 """Dish type enum"""
@@ -49,7 +55,7 @@ type Mutation {
   deleteDish(
     """dish id to be able to remove the dish"""
     id: Int
-  ): Dish!
+  ): DishPayload!
   login(
     """unique email argument """
     email: String
@@ -58,7 +64,7 @@ type Mutation {
     password: String
   ): AuthPayload
   register(input: RegisterUserInput!): AuthPayload
-  updateDish(updateDishInput: UpdateDishInput!): Dish
+  updateDish(UpdateDishInput: UpdateDishInput!): DishPayload
 }
 
 type Query {

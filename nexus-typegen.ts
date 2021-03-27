@@ -80,12 +80,17 @@ export interface NexusGenObjects {
     ownerId: number; // Int!
   }
   Dish: { // root type
+    author: NexusGenRootTypes['User']; // User!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     dishType: NexusGenEnums['DishType']; // DishType!
     id: number; // Int!
     image?: string | null; // String
     rating: NexusGenEnums['RatingType']; // RatingType!
     title: string; // String!
+  }
+  DishPayload: { // root type
+    dish?: NexusGenRootTypes['Dish'] | null; // Dish
+    success?: boolean | null; // Boolean
   }
   Mutation: {};
   Query: {};
@@ -123,6 +128,7 @@ export interface NexusGenFieldTypes {
     ownerId: number; // Int!
   }
   Dish: { // field return type
+    author: NexusGenRootTypes['User']; // User!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     dishType: NexusGenEnums['DishType']; // DishType!
     id: number; // Int!
@@ -130,12 +136,16 @@ export interface NexusGenFieldTypes {
     rating: NexusGenEnums['RatingType']; // RatingType!
     title: string; // String!
   }
+  DishPayload: { // field return type
+    dish: NexusGenRootTypes['Dish'] | null; // Dish
+    success: boolean | null; // Boolean
+  }
   Mutation: { // field return type
     createDish: NexusGenRootTypes['Dish'] | null; // Dish
-    deleteDish: NexusGenRootTypes['Dish']; // Dish!
+    deleteDish: NexusGenRootTypes['DishPayload']; // DishPayload!
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     register: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
-    updateDish: NexusGenRootTypes['Dish'] | null; // Dish
+    updateDish: NexusGenRootTypes['DishPayload'] | null; // DishPayload
   }
   Query: { // field return type
     dishById: NexusGenRootTypes['Dish'] | null; // Dish
@@ -168,6 +178,7 @@ export interface NexusGenFieldTypeNames {
     ownerId: 'Int'
   }
   Dish: { // field return type name
+    author: 'User'
     createdAt: 'DateTime'
     dishType: 'DishType'
     id: 'Int'
@@ -175,12 +186,16 @@ export interface NexusGenFieldTypeNames {
     rating: 'RatingType'
     title: 'String'
   }
+  DishPayload: { // field return type name
+    dish: 'Dish'
+    success: 'Boolean'
+  }
   Mutation: { // field return type name
     createDish: 'Dish'
-    deleteDish: 'Dish'
+    deleteDish: 'DishPayload'
     login: 'AuthPayload'
     register: 'AuthPayload'
-    updateDish: 'Dish'
+    updateDish: 'DishPayload'
   }
   Query: { // field return type name
     dishById: 'Dish'
@@ -217,7 +232,7 @@ export interface NexusGenArgTypes {
       input: NexusGenInputs['RegisterUserInput']; // RegisterUserInput!
     }
     updateDish: { // args
-      updateDishInput: NexusGenInputs['UpdateDishInput']; // UpdateDishInput!
+      UpdateDishInput: NexusGenInputs['UpdateDishInput']; // UpdateDishInput!
     }
   }
   Query: {

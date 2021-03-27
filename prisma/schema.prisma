@@ -39,9 +39,9 @@ model Dish {
   dishType   DishType
   rating Rating
   image String?
-  ownerId  Int?
+  ownerId  Int
   ingredients Ingredient[]
-  author    User?    @relation(fields: [ownerId], references: [id])
+  author   User  @relation(fields: [ownerId], references: [id])
   comments   Comment[] // A post can have many comments
   createdAt   DateTime @default(now())
 }
