@@ -25,6 +25,16 @@ export const RegisterUserInput = inputObjectType({
   },
 });
 
+export const UpdateMeInput = inputObjectType({
+  name: "UpdateMeInput",
+  definition(t) {
+    t.nullable.string("firstName");
+    t.nullable.string("lastName");
+    t.nullable.string("email");
+    t.nullable.string("password");
+  },
+});
+
 export const User = objectType({
   name: "User",
   definition(t) {

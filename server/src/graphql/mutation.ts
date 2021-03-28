@@ -1,6 +1,5 @@
 import { AuthenticationError } from "apollo-server-errors";
 import { arg, extendType, intArg, nonNull, stringArg } from "nexus";
-
 import { Context } from "../context";
 import { comparePassword, createToken, getUserId, hashPassword, tokenHandler } from "../utils/auth";
 
@@ -102,19 +101,19 @@ export const Mutation = extendType({
     t.field("register", {
       type: "AuthPayload",
       args: {
-        input: nonNull(arg({ type: "RegisterUserInput" })),
+        Input: nonNull(arg({ type: "RegisterUserInput" })),
       },
       resolve: async (_parent, args, { prisma, res }: Context) => {
         const isUsersExists = await prisma.user.findUnique({
-          where: { email: args.input.email },
+          where: { email: args.Input.email },
         });
         if (isUsersExists) {
           throw new Error("User already exists!");
         }
-        const hashedPassword = await hashPassword(args.input.password);
+        const hashedPassword = await hashPassword(args.Input.password);
         const user = await prisma.user.create({
           data: {
-            ...args.input,
+            ...args.Input,
             password: hashedPassword,
           },
         });
@@ -130,6 +129,7 @@ export const Mutation = extendType({
         email: stringArg({ description: "unique email argument " }),
         password: stringArg({ description: "users password to be able to login " }),
       },
+
       resolve: async (_parent, args, { prisma, res }: Context) => {
         const user = await prisma.user.findUnique({
           where: {
@@ -149,6 +149,36 @@ export const Mutation = extendType({
           token,
           user,
         };
+      },
+    });
+    t.field("updateMe", {
+      type: "User",
+      args: {
+        Input: arg({ type: "UpdateMeInput" }),
+      },
+      resolve: async (_root, args, ctx: Context) => {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new AuthenticationError("you are not authenticated");
+        }
+
+        if (Boolean(args.Input.password)) {
+          const hashedPassword = await hashPassword(args.Input.password);
+          return await ctx.prisma.user.update({
+            where: { id: userId },
+            data: {
+              ...args.Input,
+              password: hashedPassword,
+            },
+          });
+        }
+
+        return await ctx.prisma.user.update({
+          where: { id: userId },
+          data: {
+            ...args.Input,
+          },
+        });
       },
     });
   },

@@ -63,8 +63,9 @@ type Mutation {
     """users password to be able to login """
     password: String
   ): AuthPayload
-  register(input: RegisterUserInput!): AuthPayload
+  register(Input: RegisterUserInput!): AuthPayload
   updateDish(UpdateDishInput: UpdateDishInput!): DishPayload
+  updateMe(Input: UpdateMeInput): User
 }
 
 type Query {
@@ -104,6 +105,13 @@ input UpdateDishInput {
   image: String
   rating: RatingType
   title: String
+}
+
+input UpdateMeInput {
+  email: String
+  firstName: String
+  lastName: String
+  password: String
 }
 
 type User {

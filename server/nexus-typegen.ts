@@ -50,6 +50,12 @@ export interface NexusGenInputs {
     rating?: NexusGenEnums['RatingType'] | null; // RatingType
     title?: string | null; // String
   }
+  UpdateMeInput: { // input type
+    email?: string | null; // String
+    firstName?: string | null; // String
+    lastName?: string | null; // String
+    password?: string | null; // String
+  }
 }
 
 export interface NexusGenEnums {
@@ -146,6 +152,7 @@ export interface NexusGenFieldTypes {
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     register: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     updateDish: NexusGenRootTypes['DishPayload'] | null; // DishPayload
+    updateMe: NexusGenRootTypes['User'] | null; // User
   }
   Query: { // field return type
     dishById: NexusGenRootTypes['Dish'] | null; // Dish
@@ -196,6 +203,7 @@ export interface NexusGenFieldTypeNames {
     login: 'AuthPayload'
     register: 'AuthPayload'
     updateDish: 'DishPayload'
+    updateMe: 'User'
   }
   Query: { // field return type name
     dishById: 'Dish'
@@ -229,10 +237,13 @@ export interface NexusGenArgTypes {
       password?: string | null; // String
     }
     register: { // args
-      input: NexusGenInputs['RegisterUserInput']; // RegisterUserInput!
+      Input: NexusGenInputs['RegisterUserInput']; // RegisterUserInput!
     }
     updateDish: { // args
       UpdateDishInput: NexusGenInputs['UpdateDishInput']; // UpdateDishInput!
+    }
+    updateMe: { // args
+      Input?: NexusGenInputs['UpdateMeInput'] | null; // UpdateMeInput
     }
   }
   Query: {
