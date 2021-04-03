@@ -80,9 +80,11 @@ export interface NexusGenObjects {
   }
   Comment: { // root type
     author: NexusGenRootTypes['User']; // User!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     dish: NexusGenRootTypes['Dish']; // Dish!
     dishId: number; // Int!
     ownerId: number; // Int!
+    text: string; // String!
   }
   Dish: { // root type
     author: NexusGenRootTypes['User']; // User!
@@ -128,9 +130,11 @@ export interface NexusGenFieldTypes {
   }
   Comment: { // field return type
     author: NexusGenRootTypes['User']; // User!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     dish: NexusGenRootTypes['Dish']; // Dish!
     dishId: number; // Int!
     ownerId: number; // Int!
+    text: string; // String!
   }
   Dish: { // field return type
     author: NexusGenRootTypes['User']; // User!
@@ -146,6 +150,7 @@ export interface NexusGenFieldTypes {
     success: boolean | null; // Boolean
   }
   Mutation: { // field return type
+    addComment: NexusGenRootTypes['Comment'] | null; // Comment
     createDish: NexusGenRootTypes['Dish'] | null; // Dish
     deleteDish: NexusGenRootTypes['DishPayload']; // DishPayload!
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
@@ -154,6 +159,7 @@ export interface NexusGenFieldTypes {
     updateMe: NexusGenRootTypes['User'] | null; // User
   }
   Query: { // field return type
+    comments: NexusGenRootTypes['Comment'] | null; // Comment
     dishById: NexusGenRootTypes['Dish'] | null; // Dish
     dishes: Array<NexusGenRootTypes['Dish'] | null>; // [Dish]!
     filterDishes: Array<NexusGenRootTypes['Dish'] | null> | null; // [Dish]
@@ -179,9 +185,11 @@ export interface NexusGenFieldTypeNames {
   }
   Comment: { // field return type name
     author: 'User'
+    createdAt: 'DateTime'
     dish: 'Dish'
     dishId: 'Int'
     ownerId: 'Int'
+    text: 'String'
   }
   Dish: { // field return type name
     author: 'User'
@@ -197,6 +205,7 @@ export interface NexusGenFieldTypeNames {
     success: 'Boolean'
   }
   Mutation: { // field return type name
+    addComment: 'Comment'
     createDish: 'Dish'
     deleteDish: 'DishPayload'
     login: 'AuthPayload'
@@ -205,6 +214,7 @@ export interface NexusGenFieldTypeNames {
     updateMe: 'User'
   }
   Query: { // field return type name
+    comments: 'Comment'
     dishById: 'Dish'
     dishes: 'Dish'
     filterDishes: 'Dish'
@@ -225,6 +235,10 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    addComment: { // args
+      dishId?: number | null; // Int
+      text?: string | null; // String
+    }
     createDish: { // args
       CreateDishInput: NexusGenInputs['CreateDishInput']; // CreateDishInput!
     }

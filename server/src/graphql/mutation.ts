@@ -182,5 +182,30 @@ export const Mutation = extendType({
         });
       },
     });
+    t.field("addComment", {
+      type: "Comment",
+      args: {
+        text: stringArg({ description: "comment content" }),
+        dishId: intArg({ description: "dish id to specify this dish,added by an query variable" }),
+      },
+      resolve: async (_root, args, ctx: Context) => {
+        const userId = getUserId(ctx);
+        if (!userId) {
+          throw new AuthenticationError("you are not authenticated");
+        }
+        const comment = await ctx.prisma.comment.create({
+          data: {
+            text: args.text,
+            ownerId: userId,
+            dishId: 1,
+          },
+          include: {
+            dish: true,
+            author: true,
+          },
+        });
+        return comment;
+      },
+    });
   },
 });

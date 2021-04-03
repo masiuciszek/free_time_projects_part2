@@ -57,5 +57,11 @@ export const Query = extendType({
         });
       },
     });
+    t.field("comments", {
+      type: "Comment",
+      resolve: async (_parent, _args, ctx: Context) => {
+        return await ctx.prisma.comment.findMany({ include: { author: true, dish: true } });
+      },
+    });
   },
 });

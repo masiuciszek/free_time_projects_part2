@@ -1,10 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model Dish {
+  id          Int          @id @default(autoincrement())
+  title       String       @unique
+  dishType    DishType
+  rating      Rating
+  image       String?
+  ownerId     Int?
+  createdAt   DateTime     @default(now())
+  author      User?        @relation(fields: [ownerId], references: [id])
+  comments    Comment[]
+  ingredients Ingredient[]
+}
+
+model Ingredient {
+  id      Int     @id @default(autoincrement())
+  name    String
+  flavour Flavour
+  dishId  Int
+  dish    Dish    @relation(fields: [dishId], references: [id])
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  firstName String
+  lastName  String?
+  password  String
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now())
+  comments  Comment[]
+  dishes    Dish[]
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  text    String
+  dishId  Int
+  ownerId Int
+  createdAt DateTime  @default(now())
+  dish    Dish   @relation(fields: [dishId], references: [id])
+  author  User   @relation(fields: [ownerId], references: [id])
+
 }
 
 enum Rating {
@@ -23,57 +67,12 @@ enum Flavour {
 
 enum DishType {
   STARTER
-   MAIN
-   SIDE
-   DESSERT
+  MAIN
+  SIDE
+  DESSERT
 }
 
 enum Role {
   USER
   ADMIN
-}
-
-model Dish {
-  id        Int     @id @default(autoincrement())
-  title     String @unique
-  dishType   DishType
-  rating Rating
-  image String?
-  ownerId  Int
-  ingredients Ingredient[]
-  author   User  @relation(fields: [ownerId], references: [id])
-  comments   Comment[] // A post can have many comments
-  createdAt   DateTime @default(now())
-}
-
-model Ingredient{
-  id Int @id @default(autoincrement())
-  name String
-  flavour Flavour
-  dishId Int
-  dish Dish @relation(fields: [dishId],references:[id])
-}
-
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  firstName  String
-  lastName  String?
-  password String
-  dishes Dish[]
-  role Role @default(USER)
-  comments Comment[] // A post can have many comments
-  createdAt   DateTime @default(now())
-}
-
-
-model Comment {
-  text String
-  dish    Dish  @relation(fields: [dishId], references: [id]) // A comment can have one post
-  dishId  Int
-  ownerId Int
-  author User @relation(fields: [ownerId], references: [id])
-  // dish User? @relation(fields: [dishId], references: [id])
-  @@id([ownerId, dishId])
-
 }
