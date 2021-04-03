@@ -17,7 +17,6 @@ type Comment {
 input CreateDishInput {
   dishType: DishType!
   image: String
-  ownerId: Int
   rating: RatingType!
   title: String!
 }

@@ -25,6 +25,7 @@ export const Mutation = extendType({
         }
         const dish = await ctx.prisma.dish.create({
           data: {
+            ownerId: userId,
             ...args.CreateDishInput,
           },
           include: { author: true },
@@ -38,7 +39,7 @@ export const Mutation = extendType({
         UpdateDishInput: nonNull(
           arg({
             type: "UpdateDishInput",
-          }),
+          })
         ),
       },
 

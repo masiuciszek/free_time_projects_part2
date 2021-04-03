@@ -1,6 +1,8 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { useMemo } from "react";
+// import { getDataFromTree } from "@apollo/client/react/ssr";
 import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
+// import withApollo from "next-with-apollo";
 
 export type ResolverContext = {
   req?: IncomingMessage;
@@ -57,3 +59,5 @@ export function useApollo(initialState: any) {
   const store = useMemo(() => initializeApollo(initialState), [initialState]);
   return store;
 }
+
+// export default withApollo(createApolloClient, { getDataFromTree });

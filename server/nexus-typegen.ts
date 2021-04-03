@@ -32,7 +32,6 @@ export interface NexusGenInputs {
   CreateDishInput: { // input type
     dishType: NexusGenEnums['DishType']; // DishType!
     image?: string | null; // String
-    ownerId?: number | null; // Int
     rating: NexusGenEnums['RatingType']; // RatingType!
     title: string; // String!
   }

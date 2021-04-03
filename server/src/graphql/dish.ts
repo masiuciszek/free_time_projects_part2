@@ -25,7 +25,6 @@ export const CreateDishInput = inputObjectType({
   definition(t) {
     t.nonNull.string("title");
     t.nullable.string("image");
-    t.nullable.int("ownerId");
     t.nonNull.field("rating", { type: "RatingType" });
     t.nonNull.field("dishType", { type: "DishType" });
   },
