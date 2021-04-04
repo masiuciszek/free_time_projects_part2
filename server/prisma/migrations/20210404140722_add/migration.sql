@@ -48,11 +48,13 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Comment" (
-    "text" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "content" TEXT NOT NULL DEFAULT E'',
     "dishId" INTEGER NOT NULL,
     "ownerId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY ("ownerId","dishId")
+    PRIMARY KEY ("id")
 );
 
 -- CreateIndex

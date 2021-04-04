@@ -1,6 +1,7 @@
 import { AuthenticationError } from "apollo-server-errors";
 import { arg, extendType, intArg, nonNull, stringArg } from "nexus";
 import { Context } from "../context";
+import { AddCommentArgs } from "../types";
 import { comparePassword, createToken, getUserId, hashPassword, tokenHandler } from "../utils/auth";
 
 export const Mutation = extendType({
@@ -183,28 +184,43 @@ export const Mutation = extendType({
       },
     });
     t.field("addComment", {
-      type: "Comment",
+      type: "CommentPayload",
       args: {
-        text: stringArg({ description: "comment content" }),
-        dishId: intArg({ description: "dish id to specify this dish,added by an query variable" }),
+        content: nonNull(stringArg({ description: "comment content" })),
+        dishId: nonNull(
+          intArg({ description: "dish id to specify this dish,added by an query variable" })
+        ),
       },
-      resolve: async (_root, args, ctx: Context) => {
+      resolve: async (_root, args: AddCommentArgs, ctx: Context) => {
         const userId = getUserId(ctx);
         if (!userId) {
           throw new AuthenticationError("you are not authenticated");
         }
+
+        // check so that user can't comment its own dish
+        const dish = await ctx.prisma.dish.findUnique({
+          where: {
+            id: args.dishId,
+          },
+          include: { author: true },
+        });
+
+        if (dish?.author?.id === userId) {
+          throw new Error(`You can't comment your own dish`);
+        }
+
         const comment = await ctx.prisma.comment.create({
           data: {
-            text: args.text,
+            content: args.content,
             ownerId: userId,
-            dishId: 1,
-          },
-          include: {
-            dish: true,
-            author: true,
+            dishId: args.dishId,
           },
         });
-        return comment;
+
+        return {
+          success: true,
+          comment,
+        };
       },
     });
   },

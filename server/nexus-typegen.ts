@@ -80,14 +80,20 @@ export interface NexusGenObjects {
   }
   Comment: { // root type
     author: NexusGenRootTypes['User']; // User!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    dish: NexusGenRootTypes['Dish']; // Dish!
+    content?: string | null; // String
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    dish: Array<NexusGenRootTypes['Dish'] | null>; // [Dish]!
     dishId: number; // Int!
+    id: number; // Int!
     ownerId: number; // Int!
-    text: string; // String!
+  }
+  CommentPayload: { // root type
+    comment?: NexusGenRootTypes['Comment'] | null; // Comment
+    success?: boolean | null; // Boolean
   }
   Dish: { // root type
     author: NexusGenRootTypes['User']; // User!
+    comments: Array<NexusGenRootTypes['Comment'] | null>; // [Comment]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     dishType: NexusGenEnums['DishType']; // DishType!
     id: number; // Int!
@@ -130,14 +136,20 @@ export interface NexusGenFieldTypes {
   }
   Comment: { // field return type
     author: NexusGenRootTypes['User']; // User!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    dish: NexusGenRootTypes['Dish']; // Dish!
+    content: string | null; // String
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    dish: Array<NexusGenRootTypes['Dish'] | null>; // [Dish]!
     dishId: number; // Int!
+    id: number; // Int!
     ownerId: number; // Int!
-    text: string; // String!
+  }
+  CommentPayload: { // field return type
+    comment: NexusGenRootTypes['Comment'] | null; // Comment
+    success: boolean | null; // Boolean
   }
   Dish: { // field return type
     author: NexusGenRootTypes['User']; // User!
+    comments: Array<NexusGenRootTypes['Comment'] | null>; // [Comment]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     dishType: NexusGenEnums['DishType']; // DishType!
     id: number; // Int!
@@ -150,7 +162,7 @@ export interface NexusGenFieldTypes {
     success: boolean | null; // Boolean
   }
   Mutation: { // field return type
-    addComment: NexusGenRootTypes['Comment'] | null; // Comment
+    addComment: NexusGenRootTypes['CommentPayload'] | null; // CommentPayload
     createDish: NexusGenRootTypes['Dish'] | null; // Dish
     deleteDish: NexusGenRootTypes['DishPayload']; // DishPayload!
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
@@ -159,7 +171,7 @@ export interface NexusGenFieldTypes {
     updateMe: NexusGenRootTypes['User'] | null; // User
   }
   Query: { // field return type
-    comments: NexusGenRootTypes['Comment'] | null; // Comment
+    comments: Array<NexusGenRootTypes['Comment'] | null>; // [Comment]!
     dishById: NexusGenRootTypes['Dish'] | null; // Dish
     dishes: Array<NexusGenRootTypes['Dish'] | null>; // [Dish]!
     filterDishes: Array<NexusGenRootTypes['Dish'] | null> | null; // [Dish]
@@ -185,14 +197,20 @@ export interface NexusGenFieldTypeNames {
   }
   Comment: { // field return type name
     author: 'User'
+    content: 'String'
     createdAt: 'DateTime'
     dish: 'Dish'
     dishId: 'Int'
+    id: 'Int'
     ownerId: 'Int'
-    text: 'String'
+  }
+  CommentPayload: { // field return type name
+    comment: 'Comment'
+    success: 'Boolean'
   }
   Dish: { // field return type name
     author: 'User'
+    comments: 'Comment'
     createdAt: 'DateTime'
     dishType: 'DishType'
     id: 'Int'
@@ -205,7 +223,7 @@ export interface NexusGenFieldTypeNames {
     success: 'Boolean'
   }
   Mutation: { // field return type name
-    addComment: 'Comment'
+    addComment: 'CommentPayload'
     createDish: 'Dish'
     deleteDish: 'DishPayload'
     login: 'AuthPayload'
@@ -236,8 +254,8 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     addComment: { // args
-      dishId?: number | null; // Int
-      text?: string | null; // String
+      content: string; // String!
+      dishId: number; // Int!
     }
     createDish: { // args
       CreateDishInput: NexusGenInputs['CreateDishInput']; // CreateDishInput!

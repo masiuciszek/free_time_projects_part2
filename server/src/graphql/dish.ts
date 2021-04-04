@@ -1,4 +1,4 @@
-import { objectType, enumType, inputObjectType } from "nexus";
+import { objectType, enumType, inputObjectType, list } from "nexus";
 
 export const DishType = enumType({
   name: "DishType",
@@ -51,6 +51,7 @@ export const Dish = objectType({
     t.nonNull.field("dishType", { type: "DishType" });
     t.string("image");
     t.nonNull.field("author", { type: "User" });
+    t.nonNull.field("comments", { type: list("Comment") });
     t.nonNull.field("createdAt", { type: "DateTime" });
   },
 });

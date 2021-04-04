@@ -2,6 +2,7 @@ import { extendType, intArg, stringArg } from "nexus";
 import { Context } from "../context";
 import { getUserId } from "../utils/auth";
 import { AuthenticationError } from "apollo-server-errors";
+import { resolve } from "node:path";
 
 export const Query = extendType({
   type: "Query",
@@ -9,7 +10,7 @@ export const Query = extendType({
     t.nonNull.list.field("dishes", {
       type: "Dish",
       async resolve(_root, _args, ctx: Context) {
-        return await ctx.prisma.dish.findMany({ include: { author: true } });
+        return await ctx.prisma.dish.findMany({ include: { author: true, comments: true } });
       },
     });
     t.nullable.field("dishById", {
@@ -57,9 +58,9 @@ export const Query = extendType({
         });
       },
     });
-    t.field("comments", {
+    t.nonNull.list.field("comments", {
       type: "Comment",
-      resolve: async (_parent, _args, ctx: Context) => {
+      async resolve(_root, _args, ctx: Context) {
         return await ctx.prisma.comment.findMany({ include: { author: true, dish: true } });
       },
     });

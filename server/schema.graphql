@@ -9,11 +9,17 @@ type AuthPayload {
 
 type Comment {
   author: User!
-  createdAt: DateTime!
-  dish: Dish!
+  content: String
+  createdAt: DateTime
+  dish: [Dish]!
   dishId: Int!
+  id: Int!
   ownerId: Int!
-  text: String! @deprecated(reason: "comments content")
+}
+
+type CommentPayload {
+  comment: Comment
+  success: Boolean
 }
 
 input CreateDishInput {
@@ -30,6 +36,7 @@ scalar DateTime
 
 type Dish {
   author: User!
+  comments: [Comment]!
   createdAt: DateTime!
   dishType: DishType!
   id: Int!
@@ -53,12 +60,12 @@ enum DishType {
 
 type Mutation {
   addComment(
-    """dish id to specify this dish,added by an query variable"""
-    dishId: Int
-
     """comment content"""
-    text: String
-  ): Comment
+    content: String!
+
+    """dish id to specify this dish,added by an query variable"""
+    dishId: Int!
+  ): CommentPayload
   createDish(CreateDishInput: CreateDishInput!): Dish
   deleteDish(
     """dish id to be able to remove the dish"""
@@ -77,7 +84,7 @@ type Mutation {
 }
 
 type Query {
-  comments: Comment
+  comments: [Comment]!
   dishById(id: Int): Dish
   dishes: [Dish]!
   filterDishes(searchString: String): [Dish]

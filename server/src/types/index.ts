@@ -8,7 +8,7 @@ export type Remapped<T> = {
     parent: null | undefined,
     args: FirstArgument<[P]>,
     ctx: Context,
-    info?: GraphQLResolveInfo,
+    info?: GraphQLResolveInfo
   ) => any;
 };
 
@@ -75,4 +75,9 @@ export interface IUpdateDishInput {
   rating?: Rating;
   dishType?: DishType;
   image?: string;
+}
+
+export interface AddCommentArgs {
+  content: string;
+  dishId: number;
 }
